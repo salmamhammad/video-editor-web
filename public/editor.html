@@ -1,0 +1,649 @@
+<html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS Bundle (includes Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
+  <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+  <!-- <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" /> -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="shortcut icon" href="assets/images/favicon.png" />
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Openshot Web</title>
+  <style>
+   .progress-bar { width: 80%; background: #ddd; height: 25px; margin: auto; border-radius: 5px; }
+        .progress { width: 0%; height: 100%; background: green; border-radius: 5px; }
+  .headertimeline{
+    bottom: 30%;
+  position: absolute;
+  background: rgb(89, 89, 89);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  }
+  .video_control{
+    bottom:35%;
+  position: absolute;
+  background: transparent;
+  color: #fff;
+  width: 71%;
+  left: 0px;
+  text-align: center;
+  padding: 10px;
+
+  }
+  .videoplay {
+    font-size: 45px;
+  }
+  .videoback {
+    font-size: 30px;
+  }
+  .videoforward {
+    font-size: 30px;
+  }
+  .sidebar-icon-only .navbar{
+    box-shadow: 0px 10px 10px rgba(177, 177, 177, 0.3);
+  }
+
+  @media (max-width: 990px) {
+    .logo{
+      width: 50px;
+    }
+    .sidebar .sidebar-brand-wrapper .sidebar-brand {
+      display: none;
+    }
+    .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .count-indicator {
+      display: none;
+    }
+    .headertimeline{
+      margin-left: -70px; 
+    }
+    .video_control{
+      margin-left: -70px; 
+      bottom: 33%;
+    }
+    #canvas{
+      margin-left: -70px; 
+      width: 60%;
+    }
+    #layer_holder{
+      width: 40%;
+    }
+    #layers .preview_title {
+  
+    font-size: 8px;
+}
+  }
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+}
+
+.tab-button {
+    padding: 10px 15px;
+    border: none;
+    background: #f1f1f1;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+.tab-button.active {
+    background: #ddd;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+    padding: 15px;
+}
+
+.tab-content.active {
+    display: block;
+}
+.btn-fw{
+  background: white;
+  color: #000;
+}
+.btn-fw:hover{
+  background: #000;
+  color: white;
+}
+.filter{
+  width: 100%;
+  padding: 0px;
+  font-size: 10px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  height: 70px;
+  width: 100px;
+  background-repeat: no-repeat;
+  border-color:#cccccc00;
+}
+
+  </style>
+</head>
+<body class="sidebar-icon-only" style="background: #000;">
+  <div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
+        <a class="sidebar-brand brand-logo" href="#"><img src="assets/logo.png" alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="#"><img src="assets/logo.png" alt="logo" /></a>
+      </div>
+      <ul class="nav" style="   margin-top: 40px  ">
+        <li class="nav-item nav-profile">
+         
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick='upload()'>
+            <i class="mdi mdi-airplay  menu-icon "></i>
+            <span class="menu-title">Media</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick='add_text()' >
+            <i class="mdi mdi-box-cutter  menu-icon"></i>
+            <span class="menu-title">Text</span>
+          </a>
+        </li>
+    
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#"  >
+            <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            <span class="menu-title">filtters</span>
+          </a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="#"  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#updateSettingsModal">
+            <i class="mdi mdi-settings   menu-icon"></i>
+            <span class="menu-title">Settings</span>
+          </a>
+        </li>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#"  >
+            <i class="mdi mdi-pulse menu-icon" onclick='denoise()'></i>
+            <span class="menu-title">Remove noise </span>
+          </a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#" onclick="process_data_submit()">
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+            <span class="menu-title">process_data</span>
+          </a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transcribeModal">
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+            <span class="menu-title">transcribe</span>
+          </a>
+        </li>
+      
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="collapse" href="#ui-translate" aria-expanded="false" aria-controls="ui-basic">
+            <i class="mdi mdi-translate menu-icon"></i>
+            <span class="menu-title">translate  </span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-translate">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" id="" href="#" onclick="translate_submit('en')">English</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="" href="#" onclick="translate_submit('ar')">Arabic</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="" href="#" onclick="translate_submit('ru')">Russian</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="process_split()">
+            <i class="mdi mdi-content-cut menu-icon"></i>
+            <span class="menu-title">split</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+      <nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+          <a class="navbar-brand brand-logo-mini align-self-center d-lg-none" href="#"><img class="logo" src="assets/logo.png" alt="logo" /></a>
+          <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
+            <i class="mdi mdi-format-align-left  "></i>
+          </button>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a   id="menulistbutton" class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="mdi mdi-menu"></i>
+          
+              </a>
+              <div id="menulist" class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list" aria-labelledby="notificationDropdown">
+                <h6 class="p-3 mb-0"  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#projectsModal" >Menu list</h6>
+              
+                
+                <div class="dropdown-divider"></div>
+                <p class="p-3 mb-0"   data-bs-toggle="modal" data-bs-target="#saveProjectsModal" >save project</p>
+              </div>
+            </li>
+         
+            <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex">
+              
+              <div class="input-group">
+           
+                <div id="export" onclick="download()">     <i class="mdi mdi-export  menu-icon"></i> export</div>
+                <a href="" id="src" target="_blank"></a>
+               </div> 
+          
+          </li>
+        
+        <!-- <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex">
+              
+          <div class="input-group">
+       
+            <div id="export" onclick="getfromjson()">     <i class="mdi mdi-export  menu-icon"></i> get from json</div>
+            <a href="" id="src" target="_blank"></a>
+           </div> 
+      
+      </li> -->
+          </ul>
+          <ul class="navbar-nav navbar-nav-right ml-lg-auto">
+            <li class="nav-item dropdown d-none d-xl-flex border-0">
+              <a class="nav-link dropdown-toggle"  id="accountbutton" href="#" >
+                <i class="mdi mdi-account" ></i>  </a>
+                <div id="accountOptions" class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list" aria-labelledby="notificationDropdown">
+
+                  <p class="p-3 mb-0"   onclick="logout()">  <i class="mdi mdi-logout "></i> logout</p>
+                </div>
+            </li>
+           
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <div class="main-panel">
+        <div class="content-wrapper pb-0">
+
+  <div id="background" class="full">
+    refresh if visible (javascript didn't load)
+    <input type="file" id="filepicker" multiple accept="video/mp4,video/x-m4v,video/*,image/*"/>
+  </div>
+  <div id="foreground" class="full">
+    <div id="cursor_preview">
+     <div></div>
+     <canvas></canvas>
+    </div>
+    <div id="canvas"></div> 
+    <div id="layer_holder">
+      <div id="header">
+        <h2>Layer Manager</h2>
+      </div>
+    
+      <!-- Tabs for Layers & Filters -->
+      <div class="tabs">
+        <button class="tab-button active" onclick="switchTab('layers')">Layers</button>
+        <button class="tab-button" onclick="switchTab('filters')">Filters</button>
+           <button class="tab-button" onclick="switchTab('styles')">Styles</button>
+
+      </div>
+    
+      <!-- Layers Panel -->
+      <div id="layers_panel" class="tab-content active" style="  height: 65%; ">
+        <div id="layers"> 
+          <!-- Layers will be added dynamically here -->
+        </div>
+      </div>
+    
+      <!-- Filters Panel -->
+      <div id="filters_panel" class="tab-content" style="  height: 65%; ">
+        <div class="row">
+          <!-- Blur -->
+          <div class="col-lg-4  col-6 text-center ">
+              <button class="btn btn-outline-primary filter-btn filter"  onclick="applyBlurFilter()"  style="background-image: url('assets/images/blur.png');" data-filter="blur">
+                  Blur
+              </button>
+          </div>
+      
+          <!-- Brightness -->
+          <div class="col-lg-4 col-6 text-center " >
+              <button class="btn btn-outline-primary filter-btn filter" onclick="applyBrightnessFilter()" style="background-image: url('assets/images/brightness.png');"  data-filter="brightness">
+                  Brightness
+              </button>
+          </div>
+      
+          <!-- Contrast -->
+          <div class="col-lg-4 col-6 text-center  ">
+              <button class="btn btn-outline-primary filter-btn filter"  onclick="applyContrastFilter()"  style="background-image: url('assets/images/contrast.png');"  data-filter="contrast">
+                  Contrast
+              </button>
+          </div>
+      
+          <!-- Grayscale -->
+          <div class="col-lg-4 col-6 text-center  ">
+              <button class="btn btn-outline-primary filter-btn filter" onclick="applyGrayscaleFilter()"  style="background-image: url('assets/images/grayscale.png');"  data-filter="grayscale">
+                  Grayscale
+              </button>
+          </div>
+      
+          <!-- Sepia -->
+          <div class=" col-lg-4 col-6 text-center  ">
+              <button class="btn btn-outline-primary filter-btn filter"  onclick="applySepiaFilter()" style="background-image: url('assets/images/sepia.png');"  data-filter="sepia">
+                  Sepia
+              </button>
+          </div>
+      </div>
+       
+   
+    </div>
+    <div id="styles_panel" class="tab-content active" style="  height: 65%; ">
+      <div id="styles"> 
+        <div id="nothing" class="styles"> please select filter first</div>
+        <div id="blur" class="styles" style="display: none;">
+          <h2 style="text-align: center; margin-bottom: 10px;"> Blur filtter</h2>
+          <label for="filtersigma">sigma:</label>
+          <input type="range" id="filtersigma" min="0" max="10" value="5" style="  float: right;" oninput=" applyBlurFilter() "><br/>
+          <label for="filteriterations">iterations:</label>
+          <input type="range" id="filteriterations" min="0" max="100" value="50" style="  float: right;" oninput=" applyBlurFilter() "><br/>
+          <label for="filterhorizontal_radius">horizontal_radius:</label>
+          <input type="range" id="filterhorizontal_radius" min="0" max="100" value="50" style="  float: right;" oninput=" applyBlurFilter() "><br/>
+          <label for="filtervertical_radius">vertical_radius:</label>
+          <input type="range" id="filtervertical_radius" min="0" max="100" value="50" style="  float: right;" oninput=" applyBlurFilter() "><br/>
+           
+        </div>
+        <div id="brightness" class="styles" style="display: none;">
+          <h2 style="text-align: center; margin-bottom: 10px;"> Brightness filtter</h2>
+          <label for="filterbrightness">brightness:</label>
+          <input type="range" id="filterbrightness" min="0" max="2" value="1.5" style="  float: right;" oninput=" applyBrightnessFilter() "><br/>
+           
+        </div>
+        <div id="contrast" class="styles" style="display: none;">
+          <h2 style="text-align: center; margin-bottom: 10px;"> Contrast filtter</h2>
+          <label for="filtercontrast">contrast:</label>
+          <input type="range" id="filtercontrast" min="0" max="2" value="1.5" style="  float: right;" oninput=" applyContrastFilter() "><br/>
+                
+        </div>
+        <div id="grayscale" class="styles" style="display: none;">
+          <h2 style="text-align: center; margin-bottom: 10px;"> Grayscale filtter</h2>
+          <p>No additional parameters needed! It automatically removes color.
+            </p>
+
+        </div>
+        <div id="sepia" class="styles" style="display: none;">
+          <h2 style="text-align: center; margin-bottom: 10px;"> Sepia filtter</h2>
+          <p>No additional parameters needed! It automatically removes color.
+          </p>
+        </div>
+        <button style="text-align: center; margin-top: 10px;" class="btn btn-outline-dark btn-fw" onclick="renderFinalVideo()">Apply Filter</button>
+
+      </div>
+    </div>
+    </div>
+    
+   <div >
+    <div class="video_control ">
+      <button onclick="playBackward()" class="navbar-toggler" type="button">
+        <i class="mdi mdi-skip-backward   videoback "></i>
+      </button>
+      <button   class="navbar-toggler" type="button"  onclick="videoPlay()">
+       <!-- mdi mdi-pause-circle-outline -->
+        <i id="videoplay" class="mdi mdi-arrow-right-drop-circle-outline videoplay  "></i>
+      </button>
+      <button onclick="playForward()"  class="navbar-toggler" type="button" >
+        <i class="mdi mdi-skip-forward    videoforward "></i>
+      </button>
+     </div>
+    <div class="headertimeline ">
+      <h2>TimeLine</h2>
+     </div>
+    <div id="time" style="   margin-left: -70px;"></div>
+   </div>
+    <div class="log" id="logBox"></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="saveProjectsModal" tabindex="-1" aria-labelledby="projectsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectsLabel"> List of projects</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="text" id="projectName" placeholder="Project Name" required />
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="saveproject()" class="btn btn-outline-primary" data-bs-dismiss="modal">Save Project</button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+  
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="projectsModal" tabindex="-1" aria-labelledby="projectsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectsLabel"> List of projects</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="projects"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+  
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="updateSettingsModal" tabindex="-1" aria-labelledby="updateSettingsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateSettingsLabel">Update Settings </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+         <!-- Form Inside Modal -->
+         <div class="mb-3">
+          <label for="clusters" class="form-label">Frames in second (this affect speed of processing)</label>
+          <input type="text" class="form-control" id="input_fps" placeholder="fps (integer)" value="15" required>
+        </div> 
+          <div class="mb-3">
+            <label for="clusters" class="form-label">max RAM (in MB)</label>
+            <input type="text" class="form-control" id="input_ram" placeholder="max RAM (in MB)" value="1000" required>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button"  onclick='updateSettings()' class="btn btn-primary">Apply </button>
+      </div>
+  
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="transcribeModal" tabindex="-1" aria-labelledby="transcribeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transcribeModalLabel">Transcribe information </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+         <!-- Form Inside Modal -->
+       
+          <div class="mb-3">
+            <label for="clusters" class="form-label">Expected number of speakers</label>
+            <input type="text" class="form-control" id="input_clusters" placeholder="number of speakers" required>
+          </div>
+          <div class="mb-3">
+            <label for="src" class="form-label">Source Language</label>
+            <select  class="form-control" id="input_src"  required>
+              <option value="en">English</option>
+              <option value="ar">Arabic</option>
+              <option value="ru">Russian</option>
+              </select>
+          </div>
+        
+     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" onclick="transcribe_submit()" class="btn btn-primary">Apply </button>
+      </div>
+  
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="ProcessingeModal" tabindex="-1" aria-labelledby="ProcessingModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ProcessingModelLabel">Processing information </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <!-- Form Inside Modal -->
+         <h2>Processing Video...</h2>
+         <div class="progress-bar">
+             <div class="progress" id="progress-bar"></div>
+         </div>
+         <p id="progress-text">0% Completed</p>
+         <p id="time-left">Estimated Time Left: -- seconds</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Apply </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+      <!-- plugins:js -->
+      <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+      <!-- endinject -->
+      <!-- Plugin js for this page -->
+      <script src="assets/vendors/chart.js/Chart.min.js"></script>
+      <!-- <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script> -->
+      <script src="assets/vendors/flot/jquery.flot.js"></script>
+      <script src="assets/vendors/flot/jquery.flot.resize.js"></script>
+      <script src="assets/vendors/flot/jquery.flot.categories.js"></script>
+      <script src="assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+      <script src="assets/vendors/flot/jquery.flot.stack.js"></script>
+      <script src="assets/vendors/flot/jquery.flot.pie.js"></script>
+      <!-- End plugin js for this page -->
+      <!-- inject:js -->
+      <script src="assets/js/off-canvas.js"></script>
+      <script src="assets/js/hoverable-collapse.js"></script>
+      <script src="assets/js/misc.js"></script>
+      <!-- endinject -->
+      <!-- Custom js for this page -->
+      <script src="assets/js/dashboard.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+ <script>
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("userName");
+
+if (!token) {
+  window.location.href = "/login";
+}else{
+  document.getElementById('accountbutton').innerHTML=`  <i class="mdi mdi-account" ></i> `+name;
+}
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(tab + "_panel").classList.add('active');
+    document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+}
+$(document).ready(function () {
+
+  const menulistbutton = document.getElementById('menulistbutton');
+  const menulist = document.getElementById('menulist');
+
+  menulistbutton.addEventListener('click', () => {
+    menulistbutton.classList.toggle('show');
+    const isExpanded = menulistbutton.getAttribute('aria-expanded') === 'true';
+    menulistbutton.setAttribute('aria-expanded', !isExpanded);
+
+    menulist.classList.toggle('show');
+  });
+
+  const accountbutton = document.getElementById('accountbutton');
+  const accountOptions = document.getElementById('accountOptions');
+
+  accountbutton.addEventListener('click', () => {
+    accountbutton.classList.toggle('show');
+    const isExpanded = accountbutton.getAttribute('aria-expanded') === 'true';
+    accountbutton.setAttribute('aria-expanded', !isExpanded);
+
+    accountOptions.classList.toggle('show');
+  });
+    // Fetch projects on page load
+    (async function loadProjects() {
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
+
+      if (!userId || !token) {
+        alert("You're not logged in.");
+        window.location.href = "/login.html";
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:8080/api/projects/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+        const container = document.getElementById('projects');
+        container.innerHTML = '';
+
+        if (res.ok) {
+          //  }
+          data.forEach(project => {
+            container.innerHTML += `<button style="text-align: center;width: 100%;padding: 10px;display: grid;" onclick='loadproject(${JSON.stringify(project.data)})'><strong>${project.name}</strong></button>`;
+          });
+        } else {
+          alert('Failed to load projects: ' + data.error);
+        }
+      } catch (err) {
+        console.error("Error loading projects:", err);
+        alert('Error loading projects');
+      }
+    })();
+
+  });
+  
+
+ </script>
+</body>
+</html>

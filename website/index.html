@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" dir="ltr">
+<head>
+		<!-- Basic -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="language" content="en" />
+		<meta name="rating" content="General" />
+		<meta name="doc-type" content="Public" />
+		<meta name="doc-class" content="Living Document" />
+		<meta name="robots" content="index,follow" />
+		<meta name="revisit-after" content="2 Days" />
+
+        <title>OpenShot Video Editor</title>
+
+        
+		<meta name="keywords" content="video editor, create video, open-source, cross-platform, openshot, linux, mac, windows, free, animation, effects, keyframe, 3d, waveform, title" />
+		<meta name="description" content="OpenShot is an award-winning free and open-source video editor for Linux, Mac, and Windows. Create videos with exciting video effects, titles, audio tracks, and animations.">
+		<meta name="author" content="OpenShot Studios, LLC">
+        
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="static/img/favicon.png" type="image/png" />
+		<link rel="apple-touch-icon" href="static/img/favicon.png">
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    	<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" href="static/vendor/bootstrap/css/bootstrap.min.css">
+   		<link rel="stylesheet" href="static/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="static/vendor/animate/animate.min.css">
+		<link rel="stylesheet" href="static/vendor/simple-line-icons/css/simple-line-icons.min.css">
+		<link rel="stylesheet" href="static/vendor/magnific-popup/magnific-popup.min.css">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="static/css/theme.css">
+		<link rel="stylesheet" href="static/css/theme-elements.css">
+		<link rel="stylesheet" href="static/css/theme-blog.css">
+
+		<!-- Current Page CSS -->
+		<link rel="stylesheet" href="static/vendor/rs-plugin/css/settings.css">
+		<link rel="stylesheet" href="static/vendor/rs-plugin/css/layers.css">
+		<link rel="stylesheet" href="static/vendor/rs-plugin/css/navigation.css">
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" href="static/css/skins/default.css">
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" href="static/css/custom.css">
+
+        <style>
+            body {
+               direction: ltr;
+            }
+            .alert-link:after {
+                content: "\200E‎";
+            }
+        </style>
+
+  
+	</head>
+	<body>
+
+		<div class="body">
+			<header id="header" class="header-narrow" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 0, 'stickySetTop': '0'}">
+				<div class="header-body">
+					<div class="header-container container">
+						<div class="header-row">
+							<div class="header-column">
+								<div class="header-logo">
+                                    
+									<a href="index.html" title="OpenShot Video Editor">
+										<img alt="OpenShot Video Editor Logo" src="static/img/logos/logo.png" style="max-width: 100%; height: auto;">
+									</a>
+                                    
+								</div>
+							</div>
+							<div class="header-column">
+								<div class="header-row">
+									<div class="header-nav">
+										<button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main">
+											<i class="fa fa-bars"></i>
+										</button>
+									
+										<div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
+											<nav>
+												<ul class="nav nav-pills" id="mainNav">
+                                                    <li class="">
+                                                        <a href="download/index.html">
+                                                            Download <i class="fa fa-download" style="padding-left: 3px;"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown">
+                                                        <a class="dropdown-toggle" href="features/index.html">
+                                                            Features
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="features/index.html">View Features</a></li>
+                                                            <li><a href="screenshots/index.html">Screenshots</a></li>
+                                                            <li><a href="videos/index.html">Videos</a></li>
+                                                            <li class="dropdown-submenu">
+                                                                <a href="about/index.html">About Us</a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a href="about/index.html">About OpenShot</a></li>
+                                                                    <li><a href="story/index.html">Our Story</a></li>
+                                                                    <li><a href="awards/index.html">Our Awards</a></li>
+                                                                    <li><a href="company/index.html">Our Company</a></li>
+                                                                    <li><a href="sponsors/index.html">Sponsors</a></li>
+                                                                    <li><a href="contact/index.html">Contact Us</a></li>
+                                                                    <li><a href="developers/index.html">Meet the Developers</a></li>
+                                                                </ul>
+                                                            </li>
+                                                           
+                                                        </ul>
+                                                    </li>
+                                                   
+                                                    <li class="dropdown">
+                                                        <a class="dropdown-toggle" href="user-guide/index.html">
+                                                            Support
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="user-guide/index.html"><i class="fa fa-book" style="vertical-align: middle; margin-right: 3px;"></i> User Guide</a></li>
+                                                            <li><a href="issues/new/index.html"><i class="fa fa-bug" style="vertical-align: middle; margin-right: 3px;"></i> Report a Bug</a></li>
+                                                            <li><a href="https://www.reddit.com/r/OpenShot/" target="_blank"><i class="fa fa-support" style="vertical-align: middle; margin-right: 3px;"></i> Ask a Question</a></li>
+                                                            <li><a href="https://calendly.com/openshot-support/desktop" target="_blank"><i class="fa fa-phone" style="vertical-align: middle; margin-right: 3px;"></i> Phone Support</a></li>
+                                                            <li><a href="https://translations.launchpad.net/openshot/2.0/+translations" target="_blank"><i class="fa fa-language" style="vertical-align: middle; margin-right: 3px;"></i> Translations</a></li>
+                                                            <li><a href="forum/index.html" target="_blank"><i class="icon-people icons" style="vertical-align: middle; margin-right: 3px;"></i> Visit Forums</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href=/login">
+                                                            <i class="fa fa-user-circle "></i>Login/Signup
+                                                        </a>
+                                                    </li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div role="main" class="main">
+                
+                
+
+
+<div id="language-alert" class="alert alert-dark" style="padding: 6px; margin: 0px; text-align: center; border-radius: 0px; border: 0px; display: none;">
+    <strong><i class="fa fa-comments-o"></i> <a id="language-alert-link" href="#" class="alert-link"></a></strong>
+</div>
+
+				<div class="slider-container rev_slider_wrapper">
+					<div id="revolutionSlider" class="slider rev_slider" data-plugin-revolution-slider data-plugin-options="{'delay': 9000, 'gridwidth': 1170, 'gridheight': 500, 'disableProgressBar': 'on'}">
+						<ul>
+							<li data-transition="fade">
+								<img src="static/img/slides/background-optimized.jpg"
+									alt="Background image"
+									data-bgposition="center center"
+									data-bgfit="cover"
+									data-bgrepeat="no-repeat"
+									class="rev-slidebg">
+
+								<div class="tp-caption"
+									data-x="177"
+									data-y="188"
+									data-start="1000"
+									data-transform_in="x:[-300%];opacity:0;s:500;"><img src="static/img/slides/slide-title-border.png" alt="Border graphic"></div>
+
+								<div class="tp-caption top-label"
+									data-x="227"
+									data-y="180"
+									data-start="500"
+									data-transform_in="y:[-300%];opacity:0;s:500;"
+                                    dir="ltr">Award-Winning Open-Source Video Editing Software</div>
+
+								<div class="tp-caption"
+									data-x="800"
+									data-y="188"
+									data-start="1000"
+									data-transform_in="x:[300%];opacity:0;s:500;"><img src="static/img/slides/slide-title-border.png" alt="Border graphic"></div>
+
+								<div class="tp-caption main-label"
+									data-x="135"
+									data-y="210"
+									data-start="1500"
+									data-whitespace="nowrap"
+									data-transform_in="y:[100%];s:500;"
+									data-transform_out="opacity:0;s:500;"
+									data-mask_in="x:0px;y:0px;"
+                                    dir="ltr">CREATE STUNNING VIDEOS!</div>
+
+								<div class="tp-caption"
+									data-x="150"
+									data-y="310"
+									data-start="2500"
+									data-transform_in="z:0;y:[300%];rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;s:1000;"><img class="screenshot-background" src="static/img/slides/screenshot-timeline.png" alt="OpenShot Timeline"></div>
+
+								<div class="tp-caption blackboard-text clip"
+									data-x="300"
+									data-y="358"
+									data-start="3950"
+									style="font-size: 37px;"
+									data-transform_in="x:[300%];y:[300%];opacity:0;s:800;"><img src="static/img/slides/screenshot-clip-1.png" alt="OpenShot Clip 1"></div>
+
+								<div class="tp-caption blackboard-text clip"
+									data-x="350"
+									data-y="431"
+									data-start="4150"
+									style="font-size: 47px;"
+									data-transform_in="x:[400%];y:[300%];opacity:0;s:800;"><img src="static/img/slides/screenshot-clip-2.png" alt="OpenShot Clip 2"></div>
+
+							</li>
+							<li data-transition="fade">
+								<img src="static/img/slides/background-optimized.jpg"
+									alt="Background image"
+									data-bgposition="center center"
+									data-bgfit="cover"
+									data-bgrepeat="no-repeat"
+									class="rev-slidebg" data-no-retina>
+
+								<div class="tp-caption top-label"
+									data-x="35"
+									data-y="32"
+									data-start="500"
+									data-transform_in="z:0;x:[-50%];rX:0;rY:-50;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;s:600;e:Power2.easeOut;"><img class="screenshot-background" src="static/img/slides/screenshot-background-optimized.jpg" alt="OpenShot Screenshot"></div>
+
+								<div class="tp-caption main-label"
+									data-x="685"
+									data-y="190"
+									data-start="1500"
+									data-whitespace="nowrap"
+									data-transform_in="y:[100%];s:500;"
+									data-transform_out="opacity:0;s:500;"
+									data-mask_in="x:0px;y:0px;"
+                                    dir="ltr">SIMPLE &amp; FREE!</div>
+
+								<div class="tp-caption blackboard-text platform-icon"
+									data-x="685"
+									data-y="290"
+									data-start="3000"
+									style="font-size: 37px;"
+									data-transform_in="x:[-300%];y:[300%];opacity:0;s:800;"><a href="download/index.html"><img src="static/img/icons/linux-icon.png" title="Available on Linux" alt="Linux Icon"></a></div>
+
+								<div class="tp-caption blackboard-text platform-icon"
+									data-x="785"
+									data-y="290"
+									data-start="3250"
+									style="font-size: 47px;"
+									data-transform_in="x:[-400%];y:[300%];opacity:0;s:800;"><a href="download/index.html"><img src="static/img/icons/mac-icon.png" title="Available on OS X" alt="Mac Icon"></a></div>
+
+								<div class="tp-caption blackboard-text platform-icon"
+									data-x="885"
+									data-y="290"
+									data-start="3500"
+									style="font-size: 47px;"
+									data-transform_in="x:[-400%];y:[300%];opacity:0;s:800;"><a href="download/index.html"><img src="static/img/icons/win-10-icon.png" title="Available on Windows" alt="Windows Icon"></a></div>
+
+								<div class="tp-caption blackboard-text platform-icon"
+									data-x="985"
+									data-y="290"
+									data-start="3750"
+									style="font-size: 47px;"
+									data-transform_in="x:[-450%];y:[350%];opacity:0;s:800;"><a href="download/index.html"><img src="static/img/icons/chromeos.png" title="Available on Chrome OS" alt="Chrome OS Icon"></a></div>
+
+								<div class="tp-caption bottom-label"
+									data-x="730"
+									data-y="255"
+									data-start="2000"
+									data-transform_idle="o:1;"
+									data-transform_in="y:[100%];z:0;rZ:-35deg;sX:1;sY:1;skX:0;skY:0;s:600;e:Power4.easeInOut;"
+									data-transform_out="opacity:0;s:500;"
+									data-mask_in="x:0px;y:0px;s:inherit;e:inherit;"
+									data-splitin="chars"
+									data-splitout="none"
+									data-responsive_offset="on"
+									data-elementdelay="0.02"
+                                    dir="ltr">Get started making beautiful videos today!</div>
+
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="home-intro" id="home-intro">
+					<div class="container">
+
+						<div class="row">
+							<div class="col-md-7">
+								<p>
+                                    Hand-crafted with <i class="fa fa-heart" style="color:#00aaff;"></i> and 100&#37; <em>FREE</em> and open-source!
+									<span>Free &amp; open-source forever (GPL version 3.0)</span>
+								</p>
+							</div>
+							<div class="col-md-5">
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+                
+                
+    <div class="row centered">
+        <div class="col-md-12" style="text-align: center; padding-bottom: 20px;">
+            <!-- /21809389562/TopBanner-1170x113 -->
+            <div id='div-gpt-ad-1554958960827-0'>
+            <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1554958960827-0'); });
+            </script>
+            </div>
+        </div>
+    </div>
+
+
+				<div class="container">
+
+					<div class="row center">
+						<div class="col-md-12">
+							<h1 class="mb-sm word-rotator-title">
+                                
+								OpenShot is
+								<strong class="inverted">
+									<span class="word-rotate" data-plugin-options="{'delay': 2000, 'animDelay': 300}">
+										<span class="word-rotate-items">
+											<span>incredibly</span>
+											<span>amazingly</span>
+                                            <span>wonderfully</span>
+                                            <span>fantastically</span>
+										</span>
+									</span>
+								</strong>
+                                
+								simple and powerful!
+							</h1>
+							<p class="lead">
+								We designed OpenShot Video Editor to be an easy to use, quick to learn, and surprisingly powerful video editor. Take a quick look at some of our most popular features and capabilities.
+							</p>
+						</div>
+					</div>
+				</div>
+
+
+                <section class="">
+                    <div class="container">
+                        <div class="row" style="margin-top: 25px;">
+                            <div class="col-md-12">
+                                <h2>Our <strong>Features</strong></h2>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-grid icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Cross-Platform</a></h4>
+                                        <p class="mb-lg">OpenShot is a cross-platform video editor, with support for Linux, Mac, and Windows. Get started and <a href="download/index.html">download</a> our installer today.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
+                                    <div class="feature-box-icon">
+                                        <i class="fa fa-crop"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Trim &amp; Slice</a></h4>
+                                        <p class="mb-lg">Quickly trim down your videos, and find those perfect moments. OpenShot has many easy ways to cut your video.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-loop icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Animation &amp; Keyframes</a></h4>
+                                        <p class="mb-lg">Using our powerful animation framework, you can fade, slide, bounce, and animate anything in your video project.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-md">
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="300">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-layers icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Unlimited Tracks</a></h4>
+                                        <p class="mb-lg">Add as many layers as you need for watermarks, background videos, audio tracks, and more.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="300">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-fire icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Video Effects</a></h4>
+                                        <p class="mb-lg">Using our video effects engine, remove the background from your video, invert the colors, adjust brightness, and more.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="300">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-music-tone-alt icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Audio Waveforms</a></h4>
+                                        <p class="mb-lg">Visualize your audio files as waveforms, and even output the waveforms as part of your video.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-md mb-xl">
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="fa fa-font"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Title Editor</a></h4>
+                                        <p class="mb-lg">Adding titles to your video has never been easier. Use one of our templates, or make your own.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="fa fa-cube"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">3D Animations</a></h4>
+                                        <p class="mb-lg">Render beautiful 3D animated titles and effects, such as snow, lens flares, or flying text.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-clock icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Slow Motion &amp; Time Effects</a></h4>
+                                        <p class="mb-lg">Control the power of time, reversing, slowing down, and speeding up video. Use a preset or animate the playback speed and direction.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-md mb-xl">
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="fa fa-play-circle"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Edit Video</a></h4>
+                                        <p class="mb-lg">Drag and drop video, audio, or images from your file manager into OpenShot. It's that easy to get started video editing.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-speech icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">70+ Languages</a></h4>
+                                        <p class="mb-lg">OpenShot is available in many different languages, and can be translated online with
+                                            <a href="https://translations.launchpad.net/openshot/2.0" target="_blank">LaunchPad</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box feature-box-style-2 appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="600">
+                                    <div class="feature-box-icon">
+                                        <i class="icon-emotsmile icons"></i>
+                                    </div>
+                                    <div class="feature-box-info">
+                                        <h4 class="mb-sm"><a href="features/index.html" class="dark_text">Simple User Interface</a></h4>
+                                        <p class="mb-lg">We have designed OpenShot to be the easiest and friendliest video editing software ever! Give it a try and see for yourself.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </section>
+
+
+           
+                
+            </div>
+
+            <div class="container">
+                <div class="row mt-xl">
+                    <div class="col-md-12">
+                        <h2 class="mt-xl mb-xl" style="color: #ffffff;">Latest <strong>Posts</strong></h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    
+                    
+
+
+
+
+
+                    <div class="col-md-4">
+                        <div class="recent-posts mt-xl">
+                            <article class="post">
+                                <div class="date">
+                                    <span class="day">22</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <h4><a href="blog/2024/12/22/new_openshot_release_330/index.html">Smarter Edits, Stunning Design | Discover What’s New in OpenShot 3.3</a></h4>
+                                <p>Smarter edits, stunning design—OpenShot 3.3 is here to transform your editing experience! 🌟 Featuring precision tools like ripple editing and enhanced zoom controls, alongside the sleek new Cosmic Dus...</p>
+                                <a href="blog/2024/12/22/new_openshot_release_330/index.html" class="btn btn-borders btn-default mt-md mb-xl">Read More</a>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="recent-posts mt-xl">
+                            <article class="post">
+                                <div class="date">
+                                    <span class="day">11</span>
+                                    <span class="month">Jul</span>
+                                </div>
+                                <h4><a href="blog/2024/07/11/new_openshot_release_321/index.html">OpenShot 3.2.1 Released | Enhanced Stability, Numerous Fixes, and Smoother Launches!</a></h4>
+                                <p>Experience the smoothest video editing yet with OpenShot 3.2.1! This update focuses on improving stability, fixing numerous bugs, and ensuring a seamless launch every time. Dive into your video editin...</p>
+                                <a href="blog/2024/07/11/new_openshot_release_321/index.html" class="btn btn-borders btn-default mt-md mb-xl">Read More</a>
+                            </article>
+                        </div>
+                    </div>
+
+
+                    
+                    <div class="col-md-4 text-center">
+                        <div class="recent-posts mt-xl">
+                            <article class="post">
+                                <!-- /21809389562/BottomLatestPost-360x280 -->
+                                <div id='div-gpt-ad-1555100705815-0'>
+                                <script>
+                                googletag.cmd.push(function() { googletag.display('div-gpt-ad-1555100705815-0'); });
+                                </script>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+
+			<footer id="footer">
+				<div class="container">
+					<div class="row">
+						<div class="footer-ribbon">
+							<span>About OpenShot</span>
+						</div>
+						<div class="col-md-3">
+							<div class="newsletter">
+								<h4>Open-Source</h4>
+								<p>OpenShot™ was created in 2008, in an effort to build a free, simple, open-source video editor for Linux. It is now available on Linux, Mac, and Windows, has been downloaded millions of times, and continues to grow as a project!</p>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<h4>License</h4>
+							<div id="tweet" class="twitter" data-plugin-tweets data-plugin-options="{'username': '', 'count': 2}">
+								<p>OpenShot™ is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="contact-details">
+                                <h4><a style="text-decoration: none;" href="contact/index.html">Contact Us</a></h4>
+								<ul class="contact">
+									<li><p><i class="fa fa-map-marker"></i> <strong>Address:</strong> 2931 Ridge Rd #101, Rockwall, TX 75032, United States</p></li>
+									<li><p><i class="fa fa-envelope"></i> <strong>Email:</strong> <a href="mailto:support@openshot.org">support@openshot.org</a></p></li>
+                                    <li><p><i class="fa fa-phone"></i> <strong>Phone Support:</strong> <a href="https://calendly.com/openshot-support/desktop" target="_blank" title="Schedule a call with our professional desktop support staff">Schedule a Call</a></p></li>
+                                    <li>
+                                        <a href="http://www.dmca.com/Protection/Status.aspx?ID=faf13571-7c1c-4e61-9a9f-ecdef30014f6" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="../images.dmca.com/Badges/dmca_protected_sml_120n586b.png?ID=faf13571-7c1c-4e61-9a9f-ecdef30014f6"  alt="DMCA.com Protection Status" /></a>  <script src="../images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+                                    </li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<h4>Follow Us</h4>
+							<ul class="social-icons">
+								<li class="social-icons-facebook"><a href="https://www.facebook.com/openshot/" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+								<li class="social-icons-twitter"><a href="https://www.twitter.com/openshot/" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                                <li class="social-icons-reddit"><a href="https://www.reddit.com/r/OpenShot/" target="_blank" title="Reddit"><i class="fa fa-reddit"></i></a></li>
+                                <li class="social-icons-youtube"><a href="https://www.youtube.com/user/JonOomph" target="_blank" title="YouTube"><i class="fa fa-youtube-play"></i></a></li>
+							</ul>
+
+                            <h4 style="padding-top: 20px;"><a style="text-decoration: none;" href="sponsors/index.html">Sponsors</a></h4>
+                            <div style="padding: 5px;"><a href="http://aws.amazon.com/what-is-cloud-computing" target="_blank"><img alt="Powered by AWS Cloud Computing" src="../awsmedia.s3.amazonaws.com/AWS_logo_poweredby_black_127px.png"></a></div>
+                            
+                            
+						</div>
+					</div>
+				</div>
+
+				<div class="footer-copyright">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-2">
+								<a href="index.html" title="OpenShot Video Editor">
+                                    <img alt="OpenShot Video Editor Logo" height="40" src="static/img/logos/logo.png">
+                                </a>
+							</div>
+							<div class="col-md-10">
+                                <h4 style="font-size: 1em; color: #777;">OpenShot™ Video Editor. Copyright © 2008-2025 <a href="company/index.html">OpenShot Studios, LLC</a>. All Rights Reserved | <a href="privacy/index.html">Privacy</a> | <a href="terms/index.html">Terms</a> | <a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-globe icons" style="vertical-align: middle;"></i> English (en)</a></h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+
+        <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="formModalLabel" style="color: #fff;">Set Language</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" method="post" id="language-form" class="form-horizontal mb-lg" novalidate="novalidate"><input type='hidden' name='csrfmiddlewaretoken' value='uozYus2rNrsEnmFjFT4XfCpj9anZTmXfBhU0LHGboJ1SI5vaRsj4RHBVdtW0qTrq' />
+                            <div class="form-group mt-lg">
+                                <div class="col-md-12">
+                                    <select id="language-dropdown" class="form-control mb-md" name="language" style="background-color: #fff;">
+                                        
+                                            <option value="ar">
+                                                العربيّة (ar)
+                                            </option>
+                                        
+                                            <option value="zh-hans">
+                                                简体中文 (zh-hans)
+                                            </option>
+                                        
+                                            <option value="zh-hant">
+                                                繁體中文 (zh-hant)
+                                            </option>
+                                        
+                                            <option value="hr">
+                                                Hrvatski (hr)
+                                            </option>
+                                        
+                                            <option value="nl">
+                                                Nederlands (nl)
+                                            </option>
+                                        
+                                            <option value="fr">
+                                                Français (fr)
+                                            </option>
+                                        
+                                            <option value="fi">
+                                                Suomi (fi)
+                                            </option>
+                                        
+                                            <option value="en" selected>
+                                                English (en)
+                                            </option>
+                                        
+                                            <option value="de">
+                                                Deutsch (de)
+                                            </option>
+                                        
+                                            <option value="hi">
+                                                Hindi (hi)
+                                            </option>
+                                        
+                                            <option value="is">
+                                                Íslenska (is)
+                                            </option>
+                                        
+                                            <option value="it">
+                                                Italiano (it)
+                                            </option>
+                                        
+                                            <option value="ja">
+                                                日本語 (ja)
+                                            </option>
+                                        
+                                            <option value="ko">
+                                                한국어 (ko)
+                                            </option>
+                                        
+                                            <option value="nb">
+                                                Norsk (bokmål) (nb)
+                                            </option>
+                                        
+                                            <option value="pl">
+                                                Polski (pl)
+                                            </option>
+                                        
+                                            <option value="pt">
+                                                Português (pt)
+                                            </option>
+                                        
+                                            <option value="ro">
+                                                Română (ro)
+                                            </option>
+                                        
+                                            <option value="ru">
+                                                Русский (ru)
+                                            </option>
+                                        
+                                            <option value="es">
+                                                Español (es)
+                                            </option>
+                                        
+                                            <option value="tr">
+                                                Türkçe (tr)
+                                            </option>
+                                        
+                                            <option value="vi">
+                                                Tiếng Việt (vi)
+                                            </option>
+                                        
+                                            <option value="uk">
+                                                Українська (uk)
+                                            </option>
+                                        
+                                    </select>
+                                    Don't see your language? Contribute to our <a href="https://translations.launchpad.net/openshot/website/+translations" target="_blank">website translations</a>!
+                                </div>
+                            </div>
+                        </form>
+                        <div id="translators-body" style="display: none;">
+                            
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" form="language-form" class="btn btn-primary">Set Language</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<!-- Head Libs -->
+		<script src="static/vendor/modernizr/modernizr.min.js" async></script>
+
+		<!-- Vendor -->
+		<script src="static/vendor/jquery/jquery.min.js"></script>
+		<script src="static/vendor/jquery.appear/jquery.appear.min.js"></script>
+		<script src="static/vendor/jquery.easing/jquery.easing.min.js"></script>
+		<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="static/vendor/common/common.min.js"></script>
+		<script src="static/vendor/isotope/jquery.isotope.min.js"></script>
+		<script src="static/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+		<script src="static/vendor/vide/vide.min.js"></script>
+
+		<!-- Theme Base, Components and Settings -->
+		<script src="static/js/theme.js"></script>
+
+		<!-- Current Page Vendor and Views -->
+		<script src="static/vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+		<script src="static/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+
+		<!-- Theme Initialization Files -->
+		<script src="static/js/theme.init.js"></script>
+
+        
+	</body>
+
+</html>

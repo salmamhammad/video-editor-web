@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8081:8080"  # Jenkins UI
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock  # Allow Jenkins to access Docker on host
+    networks:
+      - app_network
+
+volumes:
+  jenkins_home:
+
+networks:
+  app_network:
+    driver: bridge
+  # app_network:
+  #   external: true  # use the same network your app uses (already defined in your main docker-compose)

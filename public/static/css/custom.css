@@ -1,0 +1,86 @@
+/* Add here all your CSS customizations */
+.dark_text { color: #000; }
+
+.errorlist { color: red; padding: 20px; list-style:none;}
+
+.video-player-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin-bottom: 50px;
+}
+
+.video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.entry-summary {
+    font-size: 1.4em;
+}
+
+.entry-image {
+    margin-bottom: 25px;
+}
+
+.delay-1 {
+    animation-delay: .25s;
+}
+.delay-2 {
+    animation-delay: .5s;
+}
+.delay-3 {
+    animation-delay: .75s;
+}
+.delay-4 {
+    animation-delay: 1s;
+}
+
+.entry-body img {
+    max-width: 100%;
+    width: 100%;
+    height: 90%;
+}
+
+
+ul.archives-entries-tree {
+    line-height: 20px;
+    padding-left: 20px;
+    font-weight: bold;
+}
+
+ul.entries-similar {
+    margin-bottom: 20px;
+}
+
+.archives-entries-tree ul {
+    line-height: 20px;
+    padding-left: 20px;
+    font-weight: normal;
+    padding-bottom: 20px;
+}
+
+ul.archives-entries-tree {
+    list-style: none;
+}
+
+ul.archives-entries-tree li:before {
+    content: "\00BB";
+}
+
+ul.archives-entries-tree ul ul li:before {
+    content: "";
+}
+
+.archives-entries-tree ul ul {
+    padding-bottom: 0px;
+}
+
+.archives-entries-tree li {
+    line-height: 20px;
+    list-style: none;
+}

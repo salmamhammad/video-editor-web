@@ -1,0 +1,11 @@
+*.safetensors
+*.h5
+*.pt
+*.pkl
+*.mp4
+*.avi
+*.mov
+*.zip
+node_modules/
+.env
+__pycache__/

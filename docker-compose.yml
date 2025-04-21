@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    mem_limit: 10g
+    cpus: 5.0
+    working_dir: /app
+    ports:
+      - "8765:8765" # Python WebSocket & API
+    volumes:
+      - shared_volume:/app/backend/uploads  # Shared volume
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - app_network
+
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    container_name: nodejs
+    working_dir: /app
+    ports:
+      - "8080:8080" # Node.js Express API
+    volumes:
+      - shared_volume:/app/backend/uploads  # Same shared volume
+    depends_on:
+      - backend
+      - db 
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: video_editor
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  shared_volume:
+    driver: local  
+  postgres_data:  
+    driver: local
