@@ -6,55 +6,56 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('📦 Checkout Code') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build Docker Images') {
+        stage('🐳 Build Docker Images') {
             steps {
-                sh 'docker-compose build'
+                bat 'docker-compose build'
             }
         }
 
-        stage('Start Services') {
+        stage('🚀 Start Services') {
             steps {
-                sh 'docker-compose up -d'
-                sh 'sleep 10'  // Wait for DB and services
+                bat 'docker-compose up -d'
+                bat 'timeout /t 15'  // Windows equivalent of sleep
             }
         }
 
-        stage('Run Python Backend Tests') {
+        stage('🧪 Run Python Backend Tests') {
             steps {
-                sh 'docker exec backend pytest backend/tests --disable-warnings'
+                bat 'docker exec backend pip install -r backend/requirements.txt'
+                bat 'docker exec backend pytest backend/tests --disable-warnings --maxfail=1'
             }
         }
 
-        stage('Run Node.js  Tests') {
+        stage('🧪 Run Node.js Tests') {
             steps {
-                sh 'docker exec nodejs npm install'
-                sh 'docker exec nodejs npm test'
+                bat 'docker exec nodejs npm install'
+                bat 'docker exec nodejs npm test'
             }
         }
 
-        stage('Stop Services') {
+        stage('🛑 Stop Services') {
             steps {
-                sh 'docker-compose down'
+                bat 'docker-compose down'
             }
         }
     }
 
     post {
         always {
-            echo 'Cleaning up...'
-            sh 'docker-compose down -v'
+            echo '🧹 Cleaning up containers and volumes...'
+            bat 'docker-compose down -v'
         }
         success {
-            echo '✅ All tests passed!'
+            echo '✅ All tests passed! Nice job!'
         }
         failure {
-            echo '❌ Some tests failed!'
+            echo '❌ Some tests failed! Check logs above.'
         }
     }
 }
