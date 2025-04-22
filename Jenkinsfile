@@ -43,14 +43,14 @@ pipeline {
         }
         stage('🧪 Run Python Backend Tests') {
             steps {
-                sh  'docker exec backend pytest backend/tests --disable-warnings --maxfail=1'
+                sh  ' pytest backend/tests --disable-warnings --maxfail=1'
             }
         }
 
         stage('🧪 Run Node.js Tests') {
             steps {
-                sh  'docker exec nodejs npm install'
-                sh  'docker exec nodejs npm test'
+                sh  'npm install'
+                sh  'npm test'
             }
         }
         stage('🛑 Stop Services') {
