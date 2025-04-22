@@ -32,7 +32,7 @@ pipeline {
         stage('🚀 Start Service Backend') {
             steps {
                 sh 'docker-compose up -d backend'
-                sh 'sleep 20'
+                sh 'sleep 60'
             }
         }
         stage('🚀 Start Service  Node.js') {
