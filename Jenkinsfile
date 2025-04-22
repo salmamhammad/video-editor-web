@@ -19,19 +19,16 @@ pipeline {
                 '''
             }
         }
-
         stage('📦 Checkout Code') {
             steps {
                 checkout scm
             }
         }
-
         stage('🐳 Build Docker Images') {
             steps {
                 sh  'docker-compose build'
             }
         }
-
         stage('🚀 Start Service Backend') {
             steps {
                 sh  'docker-compose up backend'
@@ -44,7 +41,6 @@ pipeline {
                 sh  'timeout /t 15'  // Windows equivalent of sleep
             }
         }
-
         stage('🧪 Run Python Backend Tests') {
             steps {
                 sh  'docker exec backend pip install -r backend/requirements.txt'
@@ -58,7 +54,6 @@ pipeline {
                 sh  'docker exec nodejs npm test'
             }
         }
-
         stage('🛑 Stop Services') {
             steps {
                 sh  'docker-compose down'
