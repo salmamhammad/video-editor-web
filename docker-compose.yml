@@ -62,7 +62,7 @@ volumes:
   postgres_data:  
     driver: local
 
-  tests:
+tests:
     build: .
     depends_on:
       - backend
