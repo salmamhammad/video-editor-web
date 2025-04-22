@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: backend
+    container_name: backendweb
     mem_limit: 10g
     cpus: 5.0
     working_dir: /app
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.node
-    container_name: nodejs
+    container_name: nodejsweb
     working_dir: /app
     ports:
       - "8080:8080" # Node.js Express API
