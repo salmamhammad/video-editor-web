@@ -23,5 +23,8 @@
     "pg": "^8.14.1",
     "react-use-websocket": "^4.13.0",
     "ws": "^8.18.1"
-  }
+  },
+  "devDependencies": {
+  "supertest": "^6.3.3"
+}
 }
