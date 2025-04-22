@@ -4,6 +4,21 @@ pipeline {
     environment {
         COMPOSE_FILE = 'docker-compose.yml'
     }
+    stages {
+        stage('Install Docker Compose') {
+            steps {
+                sh '''
+                    if ! command -v docker-compose >/dev/null 2>&1; then
+                      echo "Installing Docker Compose..."
+                      curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                      chmod +x /usr/local/bin/docker-compose
+                      ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || true
+                    else
+                      echo "Docker Compose already installed"
+                    fi
+                '''
+            }
+        }
 
     stages {
         stage('📦 Checkout Code') {
@@ -18,9 +33,15 @@ pipeline {
             }
         }
 
-        stage('🚀 Start Services') {
+        stage('🚀 Start Service Backend') {
             steps {
-                sh  'docker-compose up -d'
+                sh  'docker-compose up backend'
+                sh  'timeout /t 15'  // Windows equivalent of sleep
+            }
+        }
+        stage('🚀 Start Service  Node.js') {
+            steps {
+                sh  'docker-compose up nodejs'
                 sh  'timeout /t 15'  // Windows equivalent of sleep
             }
         }
