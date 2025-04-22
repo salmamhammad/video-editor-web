@@ -61,9 +61,3 @@ volumes:
     driver: local  
   postgres_data:  
     driver: local
-
-tests:
-    build: .
-    depends_on:
-      - backend
-    command: ["pytest"]
