@@ -39,7 +39,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: postgres
+    container_name: postgresweb
     restart: always
     environment:
       POSTGRES_USER: admin
