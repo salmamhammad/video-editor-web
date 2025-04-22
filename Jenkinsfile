@@ -31,19 +31,18 @@ pipeline {
         }
         stage('🚀 Start Service Backend') {
             steps {
-                sh  'docker-compose up backend'
-                sh  'timeout /t 15'  // Windows equivalent of sleep
+                sh 'docker-compose up -d backend'
+                sh 'sleep 20'
             }
         }
         stage('🚀 Start Service  Node.js') {
             steps {
-                sh  'docker-compose up nodejs'
-                sh  'timeout /t 15'  // Windows equivalent of sleep
+                sh  'docker-compose up -d nodejs'
+                sh  'timeout /t 5'  // Windows equivalent of sleep
             }
         }
         stage('🧪 Run Python Backend Tests') {
             steps {
-                sh  'docker exec backend pip install -r backend/requirements.txt'
                 sh  'docker exec backend pytest backend/tests --disable-warnings --maxfail=1'
             }
         }
