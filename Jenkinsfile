@@ -38,7 +38,7 @@ pipeline {
         stage('🚀 Start Service  Node.js') {
             steps {
                 sh  'docker-compose up -d nodejs'
-                sh  'timeout /t 5'  // Windows equivalent of sleep
+                sh  'timeout 5'  // Windows equivalent of sleep
             }
         }
         stage('🧪 Run Python Backend Tests') {
