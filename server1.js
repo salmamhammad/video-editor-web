@@ -68,7 +68,7 @@ const pool = new Pool({
   user: "admin",
   password: "password",
   database: "video_editor",
-  port: 5432,
+  port: 5433,
 });
 app.use(cors({ origin: "*" })); 
 app.use(express.json());
