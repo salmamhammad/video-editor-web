@@ -1,18 +1,27 @@
 pipeline {
-        agent {
-        docker {
-            image 'docker:20.10.21-dind'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     environment {
         COMPOSE_FILE = 'docker-compose.yml'
     }
     stages {
-        stage('Test Docker Access') {
+            stage('Install Docker CLI') {
             steps {
-                sh 'docker version'
+                sh '''
+                    if ! command -v docker > /dev/null 2>&1; then
+                      echo "Installing Docker CLI..."
+                      apt-get update
+                      apt-get install -y docker.io
+                    else
+                      echo "Docker already installed"
+                    fi
+                '''
+            }
+        }
+
+        stage('Check Docker Version') {
+            steps {
+                sh 'docker --version'
             }
         }
 
