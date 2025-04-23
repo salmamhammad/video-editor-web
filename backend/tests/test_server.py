@@ -1,5 +1,9 @@
-import requests
+import asyncio
+import websockets
 
-def test_api_root():
-    response = requests.get("http://backend:8765")
-    assert response.status_code == 200
+async def test_ws_connection():
+    uri = "ws://backend:8765"
+    async with websockets.connect(uri) as websocket:
+        await websocket.send("ping")
+        response = await websocket.recv()
+        assert response == "pong" 
