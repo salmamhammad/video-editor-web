@@ -1,10 +1,21 @@
 pipeline {
-    agent any
+        agent {
+        docker {
+            image 'docker:20.10.21-dind'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     environment {
         COMPOSE_FILE = 'docker-compose.yml'
     }
     stages {
+        stage('Test Docker Access') {
+            steps {
+                sh 'docker version'
+            }
+        }
+
         stage('Install Docker Compose') {
             steps {
                 sh '''
@@ -43,14 +54,14 @@ pipeline {
         }
         stage('🧪 Run Python Backend Tests') {
             steps {
-                sh  ' pytest backend/tests --disable-warnings --maxfail=1'
+                sh  'docker exec backend pytest backend/tests --disable-warnings --maxfail=1'
             }
         }
 
         stage('🧪 Run Node.js Tests') {
             steps {
-                sh  'npm install'
-                sh  'npm test'
+                sh  'docker exec nodejs npm install'
+                sh  'docker exec nodejs npm test'
             }
         }
         stage('🛑 Stop Services') {
