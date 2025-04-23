@@ -63,13 +63,13 @@ pipeline {
         }
         stage('🧪 Run Node.js Tests') {
             steps {
-                sh  'docker exec nodejsweb npm install'
+                sh 'docker exec nodejsweb npm install --save-dev jest'
                 sh  'docker exec nodejsweb npm test'
             }
         }
         stage('🧪 Run Python Backend Tests') {
             steps {
-                sh  'docker exec backendweb pytest app/backend/tests --disable-warnings --maxfail=1'
+                sh  'docker exec backendweb pytest app/tests --disable-warnings --maxfail=1'
             }
         }
 
