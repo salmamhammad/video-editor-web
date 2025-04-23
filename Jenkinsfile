@@ -61,18 +61,19 @@ pipeline {
                 sh  'sleep 5'  // Windows equivalent of sleep
             }
         }
-        stage('🧪 Run Python Backend Tests') {
-            steps {
-                sh  'docker exec backendweb pytest backend/tests --disable-warnings --maxfail=1'
-            }
-        }
-
         stage('🧪 Run Node.js Tests') {
             steps {
                 sh  'docker exec nodejsweb npm install'
                 sh  'docker exec nodejsweb npm test'
             }
         }
+        stage('🧪 Run Python Backend Tests') {
+            steps {
+                sh  'docker exec backendweb pytest app/backend/tests --disable-warnings --maxfail=1'
+            }
+        }
+
+    
         stage('🛑 Stop Services') {
             steps {
                 sh  'docker-compose down'
