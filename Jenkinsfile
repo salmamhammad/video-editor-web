@@ -68,7 +68,7 @@ pipeline {
         }
         stage('🧪 Run Node.js Tests') {
             steps {
-                sh 'docker exec nodejsweb npm install --save-dev jest'
+                sh 'docker exec nodejsweb npm install'
                 sh  'docker exec nodejsweb npm test'
             }
         }
