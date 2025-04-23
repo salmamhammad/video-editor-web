@@ -69,7 +69,7 @@ pipeline {
         }
         stage('🧪 Run Python Backend Tests') {
             steps {
-                sh  'docker exec backendweb pytest app/tests --disable-warnings --maxfail=1'
+                sh  'docker exec backendweb pytest tests --disable-warnings --maxfail=1'
             }
         }
 
