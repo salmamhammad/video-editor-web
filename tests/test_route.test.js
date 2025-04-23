@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('./app'); // now it's in the same directory
+const app = require('../server'); // now it's in the same directory
 
 describe('GET /', () => {
   it('should return 200 OK', async () => {
