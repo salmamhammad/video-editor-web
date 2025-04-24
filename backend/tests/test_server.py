@@ -12,6 +12,10 @@ import pytest
 import numpy as np
 import asyncio
 from unittest.mock import patch, MagicMock, AsyncMock
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from server import AudioVideoProcessor
 
 # Required for async tests
