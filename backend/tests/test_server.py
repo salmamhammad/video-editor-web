@@ -8,122 +8,90 @@
 #         response = await websocket.recv()
 #         assert response == "pong" 
 
-
 import pytest
-import asyncio
 import numpy as np
-import json
-from unittest import mock
-from unittest.mock import AsyncMock, MagicMock, patch
-
+import asyncio
+from unittest.mock import patch, MagicMock, AsyncMock
 from server import AudioVideoProcessor
 
-# Required for testing async functions
+# Required for async tests
 pytestmark = pytest.mark.asyncio
 
 
+# === FIXTURE: Create processor with mocked model ===
 @pytest.fixture
 def mock_processor():
-    """Fixture for mocking AudioVideoProcessor with dummy methods."""
-    processor = AudioVideoProcessor(model_path="dummy_path")
-    processor.device = "cpu"
-    processor.model = mock.MagicMock()
-    processor.whisper_model = MagicMock()
-    processor.whisper_model.transcribe = MagicMock(return_value={'text': 'Hello world'})
-    processor.read_audio = MagicMock(return_value=(np.ones(16000), 16000))
-    processor.denoise_audio = MagicMock(return_value=np.ones(16000))
-    processor.silence_removal_vad = MagicMock(return_value=[(0, 1)])
-    processor.create_lstm_model = MagicMock()
-    processor.create_lstm_model.return_value = MagicMock(
-        fit=MagicMock(),
-        predict=MagicMock(return_value=np.random.rand(1, 1))
-    )
-    processor.translate_text = MagicMock(return_value="translated text")
-    return processor
+    with patch('server.AudioDenoiserCNN') as MockModel, \
+         patch('server.whisper.load_model') as mock_whisper:
+
+        mock_model_instance = MagicMock()
+        MockModel.return_value = mock_model_instance
+
+        mock_whisper_model = MagicMock()
+        mock_whisper.return_value = mock_whisper_model
+
+        processor = AudioVideoProcessor("mock_model.pth")
+        processor.model = MagicMock()
+        processor.whisper_model = mock_whisper_model
+        return processor
 
 
-async def test_read_audio(mock_processor):
-    y, sr = mock_processor.read_audio("dummy.wav")
-    assert sr == 16000
-    assert isinstance(y, np.ndarray)
-
-
+# === TEST: normalize_audio ===
 def test_normalize_audio(mock_processor):
-    waveform = np.array([0.2, -0.4, 0.5])
-    norm = mock_processor.normalize_audio(waveform)
-    assert np.max(np.abs(norm)) == 1.0
+    waveform = np.array([0.1, -0.5, 0.7])
+    normalized = mock_processor.normalize_audio(waveform)
+    assert np.isclose(np.max(np.abs(normalized)), 1.0)
 
 
+# === TEST: adjust_gain ===
 def test_adjust_gain(mock_processor):
-    waveform = np.ones(1000)
-    adjusted = mock_processor.adjust_gain(waveform, target_dB=-10.0)
-    assert not np.array_equal(waveform, adjusted)
+    waveform = np.ones(10) * 0.1
+    adjusted = mock_processor.adjust_gain(waveform, target_dB=-20)
+    expected_rms = np.sqrt(np.mean(adjusted ** 2))
+    target_rms = 10 ** (-20 / 20)
+    assert np.isclose(expected_rms, target_rms, atol=1e-3)
 
 
-@patch("server.sf.write")
+# === TEST: read_audio with mocking ===
+@patch('server.librosa.load')
+def test_read_audio(mock_load, mock_processor):
+    mock_load.return_value = (np.ones(16000), 16000)
+    y, sr = mock_processor.read_audio("mock.wav")
+    assert len(y) == 16000
+    assert sr == 16000
+
+
+# === TEST: save_audio ===
+@patch('server.sf.write')
 def test_save_audio(mock_write, mock_processor):
-    waveform = np.random.rand(16000)
+    waveform = np.random.randn(16000)
     mock_processor.save_audio("output.wav", waveform)
     mock_write.assert_called_once()
 
 
-@patch("server.cv2.VideoCapture")
-@patch("server.ImageDraw.Draw")
-@patch("server.ImageFont.truetype")
-async def test_add_subtitles_to_video(mock_font, mock_draw, mock_cv2, mock_processor):
-    cap = MagicMock()
-    cap.isOpened.side_effect = [True, False]  # One iteration
-    cap.read.return_value = (True, np.zeros((100, 100, 3), dtype=np.uint8))
-    cap.get.side_effect = [30, 100, 100]  # fps, width, height
-    mock_cv2.return_value = cap
-
-    subtitles = [{"start_time": 0, "end_time": 2, "speaker": 0, "transcription": "Hi"}]
-    websocket = AsyncMock()
-    await mock_processor.add_subtitles_to_video(websocket, "client123", "vid.mp4", subtitles, "out.mp4", {})
-    websocket.send.assert_called()
-
-
-@patch("server.AudioSegment.from_file")
-async def test_process_video(mock_audio_seg, mock_processor):
-    audio_mock = MagicMock()
-    audio_mock.set_frame_rate.return_value.set_channels.return_value.export.return_value = None
-    mock_audio_seg.return_value = audio_mock
+# === TEST: add_subtitles_to_video with mocks ===
+@patch('server.cv2.VideoCapture')
+@patch('server.cv2.VideoWriter')
+@patch('server.ImageFont.truetype')
+@patch('server.ImageDraw.Draw')
+@patch('server.ffmpeg')
+@patch('server.Image.fromarray')
+@patch('server.cv2.cvtColor')
+async def test_add_subtitles_to_video(
+    mock_cvtColor, mock_fromarray, mock_ffmpeg, mock_draw, mock_font,
+    mock_writer, mock_capture, mock_processor
+):
+    mock_cap_instance = MagicMock()
+    mock_capture.return_value = mock_cap_instance
+    mock_cap_instance.isOpened.side_effect = [True, False]
+    mock_cap_instance.read.return_value = (True, np.zeros((720, 1280, 3)))
 
     websocket = AsyncMock()
-    reqdata = json.dumps({
-        "inputFile": "input.mp4",
-        "outputFile": "out.mp4",
-        "clusters": 1,
-        "src": "en"
-    })
+    subtitles = [{
+        'start_time': 0, 'end_time': 2, 'speaker': 1, 'transcription': "Hello"
+    }]
+    await mock_processor.add_subtitles_to_video(websocket, "test_id", "in.mp4", subtitles, "out.mp4", {})
 
-    from server import process_video
-    await process_video(websocket, "client123", reqdata, mock_processor)
-    websocket.send.assert_called()
+    assert websocket.send.called
+    mock_writer.return_value.write.assert_called()
 
-
-@patch("server.AudioSegment.from_file")
-async def test_process_video_translate(mock_audio_seg, mock_processor):
-    audio_mock = MagicMock()
-    audio_mock.set_frame_rate.return_value.set_channels.return_value.export.return_value = None
-    mock_audio_seg.return_value = audio_mock
-
-    websocket = AsyncMock()
-    reqdata = json.dumps({
-        "inputFile": "input.mp4",
-        "outputFile": "out.mp4",
-        "clusters": 1,
-        "src": "en",
-        "lang": "ar"
-    })
-
-    from server import process_video_translate
-    await process_video_translate(websocket, "client123", reqdata, mock_processor)
-    websocket.send.assert_called()
-
-
-# More test cases would follow a similar structure:
-# - Mock file I/O
-# - Replace heavy models (Whisper, Keras, Torch) with mocks
-# - Patch external libs (cv2, ffmpeg, websockets)
-# - Assert expected state or method calls

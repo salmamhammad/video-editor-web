@@ -20,7 +20,6 @@ sacremoses
 pytest
 requests
 pytest-asyncio
-unittest-mock
 pyfakefs
 aioresponses
 pytest-cov
