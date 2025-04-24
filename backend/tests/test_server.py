@@ -34,7 +34,7 @@ def mock_processor():
         mock_whisper_model = MagicMock()
         mock_whisper.return_value = mock_whisper_model
 
-        processor = AudioVideoProcessor("mock_model.pth")
+        processor = AudioVideoProcessor("output/denoiser_model4.pth")
         processor.model = MagicMock()
         processor.whisper_model = mock_whisper_model
         return processor
