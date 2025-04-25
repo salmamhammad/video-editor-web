@@ -69,8 +69,8 @@ pipeline {
         stage('🧪 Run Node.js Tests') {
             steps {
                 sh 'docker exec nodejsweb npm install'
-                sh 'docker exec nodejsweb npm install --save-dev wait-on supertest --prefix /app/'
-                sh  'docker exec nodejsweb npm test'
+                sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
+                sh  'docker exec nodejsweb npm /app/'
             }
         }
        
