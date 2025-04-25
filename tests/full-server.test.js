@@ -1,7 +1,12 @@
+jest.mock('jsonwebtoken', () => ({
+    verify: jest.fn(() => ({ user: 'testuser' })),
+  }));
+  
+
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const { app } = require('../server');
+const { app, server } = require('../server');
 let serverInstance;
 beforeAll((done) => {
     serverInstance = server.listen(0, () => {
@@ -10,10 +15,7 @@ beforeAll((done) => {
     });
   });
 // Mocks
-jest.mock('jsonwebtoken', () => ({
-    verify: jest.fn(() => ({ user: 'testuser' })),
-  }));
-  
+
 jest.mock('fs');
 jest.mock('child_process', () => ({
   exec: jest.fn((cmd, cb) => cb(null, 'mocked stdout', '')),
@@ -43,14 +45,39 @@ describe('Express Server', () => {
     }
   });
 
-  describe('JWT Handling', () => {
-    it('should decode and verify JWT token', async () => {
-      const res = await request(app)
-        .get('/protected')
-        .set('Authorization', 'Bearer mocktoken');
+
+  describe('Express Server', () => {
+    describe('JWT Handling', () => {
+      it('should decode and verify JWT token', async () => {
+        // Arrange: Mock token behavior already done above
   
-      expect(res.statusCode).toBe(200);
-      expect(res.body.user).toEqual('testuser');
+        // Act: Make request to protected route
+        const res = await request(app)
+          .get('/protected')
+          .set('Authorization', 'Bearer fakeToken');
+  
+        // Assert
+        expect(res.statusCode).toBe(200);
+        expect(res.body.user).toEqual('testuser');
+        expect(jwt.verify).toHaveBeenCalledWith('fakeToken', 'secret');
+      });
+  
+      it('should reject if no token provided', async () => {
+        const res = await request(app).get('/protected');
+        expect(res.statusCode).toBe(401);
+      });
+  
+      it('should return 403 if token is invalid', async () => {
+        jwt.verify.mockImplementation(() => {
+          throw new Error('Invalid token');
+        });
+  
+        const res = await request(app)
+          .get('/protected')
+          .set('Authorization', 'Bearer invalid');
+  
+        expect(res.statusCode).toBe(403);
+      });
     });
   });
 
