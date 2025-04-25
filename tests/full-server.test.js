@@ -1,32 +1,43 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const { app, server } = require('../server'); // Ensure app is exported
+const { app, server } = require('../server');
 
+// Mocks
 jest.mock('jsonwebtoken');
-jest.mock('bcryptjs');
 jest.mock('fs');
 jest.mock('child_process', () => ({
-  exec: jest.fn((cmd, cb) => cb(null, 'mocked stdout', ''))
+  exec: jest.fn((cmd, cb) => cb(null, 'mocked stdout', '')),
 }));
+jest.mock('ws', () => {
+  return jest.fn().mockImplementation(() => ({
+    on: jest.fn(),
+    send: jest.fn(),
+    close: jest.fn(),
+    readyState: 1,
+  }));
+});
 
 describe('Express Server', () => {
-  afterAll(() => {
-    if (server && server.close) server.close();
+  afterAll((done) => {
+    if (server && server.close) {
+      server.close(done);
+    } else {
+      done();
+    }
   });
 
   describe('JWT Handling', () => {
     it('should decode and verify JWT token', async () => {
-      jwt.verify.mockImplementation(() => ({ user: 'testuser' }));
+      jwt.verify.mockReturnValue({ user: 'testuser' });
 
       const res = await request(app)
-        .get('/your-protected-route') // Replace with your actual route
-        .set('Authorization', 'Bearer mocktoken');
+        .get('/protected') // ✅ Make sure this route exists in server.js
+        .set('Authorization', 'Bearer validtoken');
 
-      // expect actual status based on your app
-      expect([200, 302, 403]).toContain(res.statusCode);
-    });
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual({ user: 'testuser' });
+    }, 10000);
 
     it('should reject invalid JWT token', async () => {
       jwt.verify.mockImplementation(() => {
@@ -34,25 +45,28 @@ describe('Express Server', () => {
       });
 
       const res = await request(app)
-        .get('/your-protected-route') // Replace with your actual route
+        .get('/protected')
         .set('Authorization', 'Bearer invalidtoken');
 
       expect([401, 403]).toContain(res.statusCode);
-    });
+    }, 10000);
   });
 
   describe('File Upload', () => {
     it('should upload a file successfully', async () => {
       const res = await request(app)
-        .post('/process') // ← change this to your real upload endpoint
-        .attach('video', Buffer.from('dummy content'), 'video.mp4');
+        .post('/process') // ✅ Your actual upload route
+        .attach('video', Buffer.from('dummy content'), {
+          filename: 'test.mp4',
+          contentType: 'video/mp4'
+        });
 
       expect([200, 201]).toContain(res.statusCode);
-    });
+    }, 10000);
 
     it('should return error without file', async () => {
       const res = await request(app)
-        .post('/process'); // ← same endpoint
+        .post('/process');
 
       expect([400, 422]).toContain(res.statusCode);
     });

@@ -305,4 +305,16 @@ app.get("/api/projects/:userId", async (req, res) => {
  pythonSocket.on("error", (err) => {
      console.error("Python WebSocket Error:", err);
  });
+
+
+ app.get('/protected', (req, res) => {
+  const auth = req.headers.authorization;
+  if (!auth) return res.status(401).send("Unauthorized");
+  try {
+    const decoded = jwt.verify(auth.split(' ')[1], 'secret');
+    return res.status(200).json({ user: decoded.user });
+  } catch {
+    return res.status(403).send("Forbidden");
+  }
+});
  module.exports = { app, server };
