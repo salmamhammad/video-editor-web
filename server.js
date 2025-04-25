@@ -302,9 +302,5 @@ app.get("/api/projects/:userId", async (req, res) => {
  });
 
 
- // Only start server if not in test mode
- if (process.env.NODE_ENV !== 'test') {
-   server.listen(3000, () => console.log('Server running on 3000'));
- }
- 
+
  module.exports = { app, server };
