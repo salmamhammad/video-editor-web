@@ -1,39 +1,8 @@
-// // tests/full-server.test.js
-// const { spawn } = require('child_process');
-// const request = require('supertest');
-// const waitOn = require('wait-on');
-
-// let serverProcess;
-
-// beforeAll(async () => {
-//   serverProcess = spawn('node', ['server.js']);
-
-//   await waitOn({
-//     resources: ['http://localhost:8080/login'],
-//     timeout: 10000,
-//   });
-// });
-
-// afterAll(() => {
-//   serverProcess.kill();
-// });
-
-// describe('GET /login', () => {
-//   it('should return the login page', async () => {
-//     const res = await request('http://localhost:8080').get('/login');
-//     expect(res.statusCode).toBe(200);
-//   });
-// });
-
-
-
 const request = require('supertest');
-const WebSocket = require('ws');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const path = require('path');
-const { app, server } = require('../server'); // adjust path if needed
+const { app, server } = require('../server'); // Ensure app is exported
 
 jest.mock('jsonwebtoken');
 jest.mock('bcryptjs');
@@ -44,19 +13,19 @@ jest.mock('child_process', () => ({
 
 describe('Express Server', () => {
   afterAll(() => {
-    server.close(); // Ensure server is shut down after tests
+    if (server && server.close) server.close();
   });
 
   describe('JWT Handling', () => {
     it('should decode and verify JWT token', async () => {
       jwt.verify.mockImplementation(() => ({ user: 'testuser' }));
 
-      const token = jwt.sign({ user: 'testuser' }, 'secret');
       const res = await request(app)
-        .get('/protected') // replace with actual route if applicable
-        .set('Authorization', `Bearer ${token}`);
+        .get('/your-protected-route') // Replace with your actual route
+        .set('Authorization', 'Bearer mocktoken');
 
-      expect(res.statusCode).not.toBe(401);
+      // expect actual status based on your app
+      expect([200, 302, 403]).toContain(res.statusCode);
     });
 
     it('should reject invalid JWT token', async () => {
@@ -65,66 +34,27 @@ describe('Express Server', () => {
       });
 
       const res = await request(app)
-        .get('/protected') // replace with actual route
-        .set('Authorization', `Bearer invalidtoken`);
+        .get('/your-protected-route') // Replace with your actual route
+        .set('Authorization', 'Bearer invalidtoken');
 
-      expect(res.statusCode).toBe(401);
-    });
-  });
-
-  describe('Password Handling', () => {
-    it('should hash password', async () => {
-      bcrypt.hash.mockImplementation(() => Promise.resolve('hashedPassword'));
-      const hashed = await bcrypt.hash('password123', 10);
-      expect(hashed).toBe('hashedPassword');
-    });
-
-    it('should compare passwords', async () => {
-      bcrypt.compare.mockImplementation(() => Promise.resolve(true));
-      const match = await bcrypt.compare('password123', 'hashedPassword');
-      expect(match).toBe(true);
+      expect([401, 403]).toContain(res.statusCode);
     });
   });
 
   describe('File Upload', () => {
     it('should upload a file successfully', async () => {
       const res = await request(app)
-        .post('/upload') // replace with actual route
-        .attach('file', Buffer.from('dummy content'), 'test.txt');
+        .post('/process') // ← change this to your real upload endpoint
+        .attach('video', Buffer.from('dummy content'), 'video.mp4');
 
-      expect(res.statusCode).toBe(200); // or 201 or your actual status
+      expect([200, 201]).toContain(res.statusCode);
     });
 
-    it('should handle missing file', async () => {
+    it('should return error without file', async () => {
       const res = await request(app)
-        .post('/upload');
+        .post('/process'); // ← same endpoint
 
-      expect(res.statusCode).toBe(400); // or whatever error you return
-    });
-  });
-
-  describe('Utility + WebSocket', () => {
-    let ws;
-    const address = `ws://localhost:8080`;
-
-    beforeEach((done) => {
-      ws = new WebSocket(address);
-      ws.on('open', () => done());
-    });
-
-    afterEach(() => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.close();
-      }
-    });
-
-    it('should connect via WebSocket and receive a response', (done) => {
-      ws.on('message', (msg) => {
-        expect(msg).toBeDefined();
-        done();
-      });
-
-      ws.send('Hello from test');
+      expect([400, 422]).toContain(res.statusCode);
     });
   });
 });

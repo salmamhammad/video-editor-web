@@ -131,9 +131,14 @@ app.post("/upload", upload.single("video"), (req, res) => {
 // Serve uploaded files
 app.use("/videos", express.static(path.join(__dirname, "backend/uploads")));
 
-server.listen(PORT, () => {
-  console.log(`🚀 WebSocket server is running on http://localhost:${PORT}`);
-});
+// server.listen(PORT, () => {
+//   console.log(`🚀 WebSocket server is running on http://localhost:${PORT}`);
+// });
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
 app.post("/process", upload.single("video"), (req, res) => {
     console.log(req.body.file);
     const randomNum = Math.floor(Math.random() * 900000) + 100000;
@@ -300,3 +305,4 @@ app.get("/api/projects/:userId", async (req, res) => {
  pythonSocket.on("error", (err) => {
      console.error("Python WebSocket Error:", err);
  });
+ module.exports = { app, server };
