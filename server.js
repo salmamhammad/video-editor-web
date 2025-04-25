@@ -138,6 +138,8 @@ if (require.main === module) {
   server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
+} else {
+  module.exports = { app, server }; // 👈 Export for tests
 }
 app.post("/process", upload.single("video"), (req, res) => {
     console.log(req.body.file);
@@ -305,23 +307,3 @@ app.get("/api/projects/:userId", async (req, res) => {
  pythonSocket.on("error", (err) => {
      console.error("Python WebSocket Error:", err);
  });
-
- function verifyToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.status(401).send('Unauthorized');
-
-  try {
-    const decoded = jwt.verify(token, 'secret');
-    req.user = decoded;
-    next();
-  } catch {
-    return res.status(403).send('Forbidden');
-  }
-}
-
-app.get('/protected', verifyToken, (req, res) => {
-  res.status(200).json({ user: req.user });
-});
- module.exports = { app, server };
