@@ -1,21 +1,27 @@
+jest.mock('pg');
+jest.mock('ws');
+
+process.env.NODE_ENV = 'test';
 const request = require('supertest');
 const path = require('path');
 
 let app, server;
 
-beforeAll(() => {
-  const serverModule = require(path.resolve(__dirname, '../server.js'));
-  app = serverModule.app || serverModule;
-  server = serverModule.server;
-});
 
-afterAll((done) => {
-  if (server && server.close) {
-    server.close(done);
-  } else {
-    done();
-  }
-});
+
+beforeAll(() => {
+    const serverModule = require(path.resolve(__dirname, '../server.js'));
+    app = serverModule.app || serverModule;
+    server = serverModule.server;
+  });
+  
+  afterAll((done) => {
+    if (server && server.close) {
+      server.close(done);
+    } else {
+      done();
+    }
+  });
 
 describe('🚀 Server Tests', () => {
   test('GET /login should return 200 and serve login.html', async () => {

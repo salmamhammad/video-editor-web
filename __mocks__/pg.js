@@ -1,26 +1,26 @@
-const mockQuery = jest.fn();
-
-const Pool = jest.fn(() => ({
-  query: mockQuery
-}));
-
-Pool.prototype.query = mockQuery;
-
-mockQuery.mockImplementation((text, params) => {
-  if (text.includes('SELECT * FROM users WHERE email =')) {
-    if (params[0] === 'nonexistent@test.com') {
-      return Promise.resolve({ rows: [] });
-    }
-    return Promise.resolve({
-      rows: [{ id: 1, name: 'Test User', email: params[0], password_hash: '$2a$10$mockedhash' }]
-    });
-  }
-
-  if (text.includes('INSERT INTO users')) {
-    return Promise.resolve();
-  }
-
-  return Promise.resolve({ rows: [] });
-});
-
-module.exports = { Pool };
+const mockPool = {
+    query: jest.fn(async (sql, params) => {
+      // Mock signup email lookup
+      if (sql.includes('SELECT * FROM users WHERE email =')) {
+        return { rows: [] }; // No user found
+      }
+      // Mock signup insert
+      if (sql.includes('INSERT INTO users')) {
+        return { rowCount: 1 };
+      }
+      // Mock user returned after insert
+      return {
+        rows: [{
+          id: 1,
+          email: params[0],
+          name: 'Test User',
+          password_hash: await require('bcryptjs').hash('testpass123', 10),
+        }]
+      };
+    }),
+  };
+  
+  module.exports = {
+    Pool: jest.fn(() => mockPool),
+  };
+  

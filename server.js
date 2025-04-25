@@ -131,16 +131,9 @@ app.post("/upload", upload.single("video"), (req, res) => {
 // Serve uploaded files
 app.use("/videos", express.static(path.join(__dirname, "backend/uploads")));
 
-// server.listen(PORT, () => {
-//   console.log(`🚀 WebSocket server is running on http://localhost:${PORT}`);
-// });
-if (require.main === module) {
-  server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-} else {
-  module.exports = { app, server }; // 👈 Export for tests
-}
+server.listen(PORT, () => {
+  console.log(`🚀 WebSocket server is running on http://localhost:${PORT}`);
+});
 app.post("/process", upload.single("video"), (req, res) => {
     console.log(req.body.file);
     const randomNum = Math.floor(Math.random() * 900000) + 100000;
@@ -307,3 +300,11 @@ app.get("/api/projects/:userId", async (req, res) => {
  pythonSocket.on("error", (err) => {
      console.error("Python WebSocket Error:", err);
  });
+
+
+ // Only start server if not in test mode
+ if (process.env.NODE_ENV !== 'test') {
+   server.listen(3000, () => console.log('Server running on 3000'));
+ }
+ 
+ module.exports = { app, server };
