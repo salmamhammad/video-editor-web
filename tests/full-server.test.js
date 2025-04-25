@@ -5,7 +5,7 @@ jest.mock('jsonwebtoken', () => ({
   const request = require('supertest');
   const jwt = require('jsonwebtoken');
   const fs = require('fs');
-  const { app, server } = require('server');
+  const { app, server } = require('../server');
   
   let serverInstance;
   
