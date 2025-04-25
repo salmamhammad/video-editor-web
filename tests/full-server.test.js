@@ -4,7 +4,6 @@ const path = require('path');
 let app, server;
 
 beforeAll(() => {
-  // Import app and server
   const serverModule = require(path.resolve(__dirname, '../server.js'));
   app = serverModule.app || serverModule;
   server = serverModule.server;
