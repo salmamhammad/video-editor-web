@@ -70,7 +70,7 @@ pipeline {
             steps {
                 sh 'docker exec nodejsweb npm install'
                 sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
-                sh  'docker exec nodejsweb npx jest full-server.test.js'
+                sh  'docker exec nodejsweb npm test'
             }
         }
        
