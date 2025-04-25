@@ -2,7 +2,13 @@ const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const { app, server } = require('../server');
-
+let serverInstance;
+beforeAll((done) => {
+    serverInstance = server.listen(0, () => {
+      console.log('✅ Test server started');
+      done();
+    });
+  });
 // Mocks
 jest.mock('jsonwebtoken');
 jest.mock('fs');
@@ -24,7 +30,7 @@ jest.mock('ws', () => {
   
     return mWebSocket;
   });
-  
+
 describe('Express Server', () => {
   afterAll((done) => {
     if (server && server.close) {
@@ -38,7 +44,7 @@ describe('Express Server', () => {
     it('should decode and verify JWT token', async () => {
       jwt.verify.mockReturnValue({ user: 'testuser' });
 
-      const res = await request(app)
+      const res = await request(serverInstance)
         .get('/protected') // ✅ Make sure this route exists in server.js
         .set('Authorization', 'Bearer validtoken');
 
@@ -51,7 +57,7 @@ describe('Express Server', () => {
         throw new Error('Invalid token');
       });
 
-      const res = await request(app)
+      const res = await request(serverInstance)
         .get('/protected')
         .set('Authorization', 'Bearer invalidtoken');
 
@@ -61,9 +67,9 @@ describe('Express Server', () => {
 
   describe('File Upload', () => {
     it('should upload a file successfully', async () => {
-      const res = await request(app)
+      const res = await request(serverInstance)
         .post('/process') // ✅ Your actual upload route
-        .attach('video', Buffer.from('dummy content'), {
+        .attach('video', Buffer.from('dummy'), {
           filename: 'test.mp4',
           contentType: 'video/mp4'
         });
@@ -72,10 +78,16 @@ describe('Express Server', () => {
     }, 10000);
 
     it('should return error without file', async () => {
-      const res = await request(app)
+      const res = await request(serverInstance)
         .post('/process');
 
       expect([400, 422]).toContain(res.statusCode);
     });
   });
 });
+afterAll((done) => {
+    serverInstance.close(() => {
+      console.log('🛑 Test server stopped');
+      done();
+    });
+  });
