@@ -10,14 +10,21 @@ jest.mock('child_process', () => ({
   exec: jest.fn((cmd, cb) => cb(null, 'mocked stdout', '')),
 }));
 jest.mock('ws', () => {
-  return jest.fn().mockImplementation(() => ({
-    on: jest.fn(),
-    send: jest.fn(),
-    close: jest.fn(),
-    readyState: 1,
-  }));
-});
-
+    const mWebSocket = jest.fn(() => ({
+      on: jest.fn(),
+      send: jest.fn(),
+      close: jest.fn(),
+      readyState: 1,
+    }));
+  
+    mWebSocket.Server = jest.fn(() => ({
+      on: jest.fn(),
+      clients: new Set(),
+    }));
+  
+    return mWebSocket;
+  });
+  
 describe('Express Server', () => {
   afterAll((done) => {
     if (server && server.close) {
