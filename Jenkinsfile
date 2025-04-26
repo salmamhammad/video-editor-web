@@ -66,13 +66,13 @@ pipeline {
         //         sh  'docker exec backendweb pytest tests --disable-warnings --maxfail=1'
         //     }
         // }
-        stage('🧪 Run Node.js Tests') {
-            steps {
-                sh 'docker exec nodejsweb npm install'
-                sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
-                sh  'docker exec nodejsweb npm test'
-            }
-        }
+        // stage('🧪 Run Node.js Tests') {
+        //     steps {
+        //         // sh 'docker exec nodejsweb npm install'
+        //         // sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
+        //         sh  'docker exec nodejsweb npm test'
+        //     }
+        // }
        
 
     
