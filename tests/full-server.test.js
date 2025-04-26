@@ -22,9 +22,10 @@ describe("Server basic routes", () => {
   });
 
   it("should reject root URL without token", async () => {
-    const res = await request(app).get("/").redirects(0); // Disable auto-redirects so we can check status directly
-    expect(res.statusCode).toEqual(200); // Ensure status code is 302
-    // expect(res.header.location).toEqual("/login"); // Ensure it's redirecting to /login
+    const res = await request(app).get("/").redirects(0);
+  console.log("Response Status:", res.statusCode);
+  console.log("Response Headers:", res.headers);
+  expect(res.statusCode).toEqual(302);
   });
 
   it("should upload a video file", async () => {

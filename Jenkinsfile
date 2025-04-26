@@ -68,8 +68,8 @@ pipeline {
         // }
         stage('🧪 Run Node.js Tests') {
             steps {
-                // sh 'docker exec nodejsweb npm install'
-                // sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
+                sh 'docker exec nodejsweb npm install'
+                sh 'docker exec nodejsweb npm install --save-dev wait-on supertest'
                 sh  'docker exec nodejsweb npm test'
                 // sh 'docker logs nodejsweb'
 
@@ -95,6 +95,9 @@ pipeline {
         }
         failure {
             echo '❌ Some tests failed! Check logs above.'
+            echo 'The pipeline failed. Reviewing test logs:'
+            // Add steps here to gather logs or send a notification
+            archiveArtifacts allowEmptyArchive: true, artifacts: '**/jest-report*.xml'
         }
     }
 }
