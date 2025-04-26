@@ -10,19 +10,21 @@ afterAll((done) => {
 });
 
 describe("Server basic routes", () => {
-  it("should reject root URL without token", async () => {
-    const res = await request(app).get("/").redirects(0); // Disable auto-redirects so we can check status directly
-    expect(res.statusCode).toEqual(302); // Ensure status code is 302
-    expect(res.header.location).toEqual("/login"); // Ensure it's redirecting to /login
+  it("should load login page", async () => {
+    const res = await request(app).get("/login");
+    expect(res.statusCode).toEqual(200);
+    expect(res.text).toContain("<!DOCTYPE html>");
   });
+
   it("should load signup page", async () => {
     const res = await request(app).get("/signup");
     expect(res.statusCode).toEqual(200);
   });
 
   it("should reject root URL without token", async () => {
-    const res = await request(app).get("/").redirects(0); // <-- disables auto-redirect
-    expect(res.statusCode).toEqual(302);
+    const res = await request(app).get("/").redirects(0); // Disable auto-redirects so we can check status directly
+    expect(res.statusCode).toEqual(302); // Ensure status code is 302
+    expect(res.header.location).toEqual("/login"); // Ensure it's redirecting to /login
   });
 
   it("should upload a video file", async () => {
