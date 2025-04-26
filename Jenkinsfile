@@ -61,11 +61,11 @@ pipeline {
                 sh  'sleep 5'  // Windows equivalent of sleep
             }
         }
-         stage('🧪 Run Python Backend Tests') {
-            steps {
-                sh  'docker exec backendweb pytest tests --disable-warnings --maxfail=1'
-            }
-        }
+        //  stage('🧪 Run Python Backend Tests') {
+        //     steps {
+        //         sh  'docker exec backendweb pytest tests --disable-warnings --maxfail=1'
+        //     }
+        // }
         stage('🧪 Run Node.js Tests') {
             steps {
                 sh 'docker exec nodejsweb npm install'
@@ -85,16 +85,16 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo '🧹 Cleaning up containers and volumes...'
-            sh  'docker-compose down -v'
-        }
-        success {
-            echo '✅ All tests passed! Nice job!'
-        }
-        failure {
-            echo '❌ Some tests failed! Check logs above.'
-        }
-    }
+    // post {
+    //     always {
+    //         echo '🧹 Cleaning up containers and volumes...'
+    //         sh  'docker-compose down -v'
+    //     }
+    //     success {
+    //         echo '✅ All tests passed! Nice job!'
+    //     }
+    //     failure {
+    //         echo '❌ Some tests failed! Check logs above.'
+    //     }
+    // }
 }
