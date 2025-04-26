@@ -20,7 +20,7 @@ const clients = new Map();
 
 // Handle WebSocket connections
 wss.on("connection", (ws) => {
-  const clientId = generateClientId(); // Assign a unique ID to each client
+  let clientId = generateClientId(); // Assign a unique ID to each client
   clients.set(clientId, ws);
 
   console.log(`Client connected: ${clientId}`);
@@ -63,7 +63,7 @@ function generateClientId() {
   return `client-${Math.random().toString(36).substr(2, 9)}`;
 }
 const { Pool } = require("pg");
-const pool = new Pool({
+let pool = new Pool({
   host: "db",
   user: "admin",
   password: "password",
