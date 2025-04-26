@@ -232,9 +232,9 @@ function randomFilename(prefix, ext) {
 }
 
 // Start server
-server.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
+// server.listen(PORT, () => {
+//   console.log(`🚀 Server running at http://localhost:${PORT}`);
+// });
 
 // Export for tests
 module.exports = { app, server };
