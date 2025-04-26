@@ -25,7 +25,7 @@ services:
     container_name: nodejsweb
     working_dir: /app
     ports:
-      - "8080:8080" # Node.js Express API
+      - "8082:8080" # Node.js Express API
     volumes:
       - shared_volume:/app/backend/uploads  # Same shared volume
     depends_on:

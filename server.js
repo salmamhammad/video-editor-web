@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const PORT = 8080;
+const PORT = 8082;
 const http = require('http');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -124,7 +124,7 @@ app.post("/upload", upload.single("video"), (req, res) => {
     res.json({
       message: "Video uploaded successfully",
       filename: req.file.filename,
-      downloadUrl: `http://localhost:8080/videos/${req.file.filename}`, // URL to download the video
+      downloadUrl: `http://localhost:8082/videos/${req.file.filename}`, // URL to download the video
     });
   });
 

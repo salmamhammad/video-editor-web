@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://localhost:8080");  // Ensure the correct port
+const socket = new WebSocket("ws://localhost:8082");  // Ensure the correct port
 
 socket.addEventListener("open", () => {
   console.log("✅ client start connect");
@@ -1675,7 +1675,7 @@ class Player {
   let name = segs[segs.length - 1];
   // alert("/backend/uploads/"+uri);
   // Fetch the file from the URI
-  let response = await fetch("http://localhost:8080/backend/uploads/" + uri);
+  let response = await fetch("http://localhost:8082/backend/uploads/" + uri);
   let data = await response.blob();
 
   // Create a File object with metadata
@@ -1750,7 +1750,7 @@ async function uploadFile(file) {
   formData.append("file", file);
 
   try {
-      const response = await fetch("http://localhost:8080/uploaddata", {
+      const response = await fetch("http://localhost:8082/uploaddata", {
           method: "POST",
           body: formData,
       });
@@ -2066,7 +2066,7 @@ function uploadToServer(blob) {
   const formData = new FormData();
   formData.append("video", blob, "edited-video.mp4");
 
-  fetch("http://localhost:8080/upload", {
+  fetch("http://localhost:8082/upload", {
     method: "POST",
     body: formData,
   })
@@ -2109,7 +2109,7 @@ function uploadAndProcessVideo(filterType) {
   formData.append("file", file);
 
   // Send the file to the server for processing
-  fetch(`http://localhost:8080/${filterType}`, {
+  fetch(`http://localhost:8082/${filterType}`, {
     method: 'POST',
     body: formData
   })
@@ -2143,7 +2143,7 @@ function uploadAndProcessVideo(filterType) {
 
 async function urlToFile(url, filename, mimeType) {
   try {
-    const fullUrl = `http://localhost:8080/${url}`; // Ensure correct path
+    const fullUrl = `http://localhost:8082/${url}`; // Ensure correct path
     console.log("Fetching file from:", fullUrl);
     
     const response = await fetch(fullUrl);
@@ -2190,7 +2190,7 @@ function uploadAndProcessVideotranscribe(src,clusters) {
   formData.append("clusters", clusters);
 
   // Send the file to the server for processing
-  fetch(`http://localhost:8080/process`, {
+  fetch(`http://localhost:8082/process`, {
     method: 'POST',
     body: formData
   })
@@ -2303,7 +2303,7 @@ function denoise(src,clusters) {
   popup(text);
   formData.append("file", file);
   // Send the file to the server for processing
-  fetch(`http://localhost:8080/denoise`, {
+  fetch(`http://localhost:8082/denoise`, {
     method: 'POST',
     body: formData
 })
@@ -2339,7 +2339,7 @@ function denoise(src,clusters) {
 
   async function fetchAndDecodeAudio(url, filename, mimeType = "audio/wav") {
     try {
-      const fullUrl = `http://localhost:8080/${url}`; // Ensure correct path
+      const fullUrl = `http://localhost:8082/${url}`; // Ensure correct path
       console.log("Fetching file from:", fullUrl);
       
       const response = await fetch(fullUrl);
@@ -2777,7 +2777,7 @@ async function saveproject() {
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
   
-  const res = await fetch('http://localhost:8080/api/projects', {
+  const res = await fetch('http://localhost:8082/api/projects', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
