@@ -51,13 +51,13 @@ pipeline {
         }
         stage('🚀 Start Service Backend') {
             steps {
-                sh 'docker-compose up -d backend'
+                sh 'docker-compose up -d backendweb'
                 sh 'sleep 60'
             }
         }
         stage('🚀 Start Service  Node.js') {
             steps {
-                sh  'docker-compose up -d nodejs'
+                sh  'docker-compose up -d nodejsweb'
                 sh  'sleep 5'  // Windows equivalent of sleep
             }
         }
