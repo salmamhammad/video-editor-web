@@ -85,16 +85,16 @@ pipeline {
         }
     }
 
-    // post {
-    //     always {
-    //         echo '🧹 Cleaning up containers and volumes...'
-    //         sh  'docker-compose down -v'
-    //     }
-    //     success {
-    //         echo '✅ All tests passed! Nice job!'
-    //     }
-    //     failure {
-    //         echo '❌ Some tests failed! Check logs above.'
-    //     }
-    // }
+    post {
+        always {
+            echo '🧹 Cleaning up containers and volumes...'
+            sh  'docker-compose down -v'
+        }
+        success {
+            echo '✅ All tests passed! Nice job!'
+        }
+        failure {
+            echo '❌ Some tests failed! Check logs above.'
+        }
+    }
 }
