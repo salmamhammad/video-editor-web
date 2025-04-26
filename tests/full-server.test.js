@@ -29,7 +29,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 // 🛠 IMPORTANT: Correct path to server.js
-const { app, server } = require('../server'); // <-- adjust if your server.js is elsewhere
+const { app, server } = require('../server.js'); // <-- adjust if your server.js is elsewhere
 
 let serverInstance;
 

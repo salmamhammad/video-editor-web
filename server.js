@@ -300,3 +300,4 @@ app.get("/api/projects/:userId", async (req, res) => {
  pythonSocket.on("error", (err) => {
      console.error("Python WebSocket Error:", err);
  });
+ module.exports = { app, server };
