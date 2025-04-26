@@ -86,7 +86,7 @@ const upload = multer({ storage });
 // Routes
 app.get('/', verifyToken, (req, res) => {
   if (!req.headers['authorization']) {
-    return res.redirect('/login'); // Ensure this is a redirect (302)
+    return res.redirect(302, '/login'); // Ensure this is a redirect (302)
   }
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
