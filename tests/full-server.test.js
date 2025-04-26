@@ -1,6 +1,6 @@
 // server.test.js
 const request = require("supertest");
-const { app, server } = require("./server");
+const { app, server } = require("../server.js");
 
 afterAll((done) => {
   server.close(done);
