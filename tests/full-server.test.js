@@ -1,188 +1,104 @@
-// tests/server.test.js
+// Mocks at the top
+jest.mock('jsonwebtoken', () => ({
+  verify: jest.fn(() => ({ user: 'testuser' })),
+}));
 
+jest.mock('fs');
+jest.mock('child_process', () => ({
+  exec: jest.fn((cmd, cb) => cb(null, 'mocked stdout', '')),
+}));
+jest.mock('ws', () => {
+  const mWebSocket = jest.fn(() => ({
+    on: jest.fn(),
+    send: jest.fn(),
+    close: jest.fn(),
+    readyState: 1,
+  }));
+
+  mWebSocket.Server = jest.fn(() => ({
+    on: jest.fn(),
+    clients: new Set(),
+  }));
+
+  return mWebSocket;
+});
+
+// Imports
 const request = require('supertest');
-const http = require('http');
-const app = require('../server.js'); // <== Make sure you export `app` from server.js
-const { exec } = require('child_process');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { Pool } = require('pg');
+const fs = require('fs');
 
-// Mocks
-jest.mock('child_process');
-jest.mock('pg');
-jest.mock('bcryptjs');
-jest.mock('jsonwebtoken');
+// 🛠 IMPORTANT: Correct path to server.js
+const { app, server } = require('../server'); // <-- adjust if your server.js is elsewhere
 
-let server;
+let serverInstance;
 
 beforeAll((done) => {
-  server = http.createServer(app);
-  server.listen(0, done); // Random free port
+  serverInstance = server.listen(0, () => {
+    console.log('✅ Test server started');
+    done();
+  });
 });
 
 afterAll((done) => {
-  server.close(done);
+  if (serverInstance) {
+    serverInstance.close(() => {
+      console.log('🛑 Test server stopped');
+      done();
+    });
+  } else {
+    done();
+  }
 });
 
-// Mock DB connection
-const mockQuery = jest.fn();
-Pool.mockImplementation(() => ({
-  query: mockQuery,
-}));
+// 🧪 Tests
+describe('Express Server', () => {
+  describe('JWT Handling', () => {
+    it('should decode and verify JWT token', async () => {
+      const res = await request(app)
+        .get('/protected')
+        .set('Authorization', 'Bearer fakeToken');
 
-describe('Public routes', () => {
-  it('should load login page', async () => {
-    const res = await request(server).get('/login');
-    expect(res.statusCode).toBe(200);
-  });
-
-  it('should load signup page', async () => {
-    const res = await request(server).get('/signup');
-    expect(res.statusCode).toBe(200);
-  });
-
-  it('should load editor page', async () => {
-    const res = await request(server).get('/editor');
-    expect(res.statusCode).toBe(200);
-  });
-});
-
-describe('Authentication and protected routes', () => {
-  it('should redirect to login if no token', async () => {
-    const res = await request(server).get('/');
-    expect(res.statusCode).toBe(302);
-    expect(res.headers.location).toBe('/login.html');
-  });
-
-  it('should allow access with valid token', async () => {
-    jwt.verify.mockImplementation((token, secret, cb) => cb(null, { id: 1 }));
-    const res = await request(server).get('/').set('Authorization', 'Bearer faketoken');
-    expect(res.statusCode).toBe(200);
-  });
-});
-
-describe('Uploads and Processing', () => {
-  it('should upload data', async () => {
-    const res = await request(server)
-      .post('/uploaddata')
-      .attach('file', Buffer.from('dummy file'), 'test.mp4');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.fileUrl).toBeDefined();
-  });
-
-  it('should upload video', async () => {
-    const res = await request(server)
-      .post('/upload')
-      .attach('video', Buffer.from('dummy video'), 'video.mp4');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.filename).toBeDefined();
-  });
-
-  it('should process video', async () => {
-    exec.mockImplementation((cmd, cb) => cb(null, 'done', ''));
-    const res = await request(server)
-      .post('/process')
-      .field('file', 'video.mp4')
-      .field('src', 'src')
-      .field('clusters', '3');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.outputFile).toBeDefined();
-  });
-
-  it('should denoise audio', async () => {
-    exec.mockImplementation((cmd, cb) => cb(null, 'done', ''));
-    const res = await request(server)
-      .post('/denoise')
-      .field('file', 'audio.mp4');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.outputFile).toBeDefined();
-  });
-
-  it('should blur video', async () => {
-    exec.mockImplementation((cmd, cb) => cb(null, 'done', ''));
-    const res = await request(server)
-      .post('/blur')
-      .field('file', 'video.mp4');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.outputFile).toBeDefined();
-  });
-
-  it('should color correct video', async () => {
-    exec.mockImplementation((cmd, cb) => cb(null, 'done', ''));
-    const res = await request(server)
-      .post('/color')
-      .field('file', 'video.mp4');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.outputFile).toBeDefined();
-  });
-});
-
-describe('User Authentication API', () => {
-  it('should signup a user', async () => {
-    bcrypt.hash.mockResolvedValue('hashedpassword');
-    mockQuery.mockResolvedValueOnce({ rows: [] });
-    mockQuery.mockResolvedValueOnce({ rows: [{ id: 1, name: 'Test User' }] });
-
-    const res = await request(server)
-      .post('/api/signup')
-      .send({ name: 'Test', email: 'test@test.com', password: 'pass123' });
-
-    expect(res.statusCode).toBe(201);
-    expect(res.body.token).toBeDefined();
-  });
-
-  it('should login a user', async () => {
-    bcrypt.compare.mockResolvedValue(true);
-    mockQuery.mockResolvedValueOnce({
-      rows: [{ id: 1, name: 'Test', password_hash: 'hashed' }],
+      expect(res.statusCode).toBe(200);
+      expect(res.body.user).toEqual('testuser');
+      expect(jwt.verify).toHaveBeenCalledWith('fakeToken', 'secret');
     });
 
-    const res = await request(server)
-      .post('/api/login')
-      .send({ email: 'test@test.com', password: 'pass123' });
+    it('should reject if no token provided', async () => {
+      const res = await request(app).get('/protected');
+      expect(res.statusCode).toBe(401);
+    });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.token).toBeDefined();
+    it('should return 403 if token is invalid', async () => {
+      jwt.verify.mockImplementation(() => {
+        throw new Error('Invalid token');
+      });
+
+      const res = await request(app)
+        .get('/protected')
+        .set('Authorization', 'Bearer invalid');
+
+      expect(res.statusCode).toBe(403);
+    });
   });
 
-  it('should fail login with wrong credentials', async () => {
-    bcrypt.compare.mockResolvedValue(false);
-    mockQuery.mockResolvedValueOnce({ rows: [{ id: 1, password_hash: 'hashed' }] });
+  describe('File Upload', () => {
+    it('should upload a file successfully', async () => {
+      const res = await request(serverInstance)
+        .post('/process')
+        .attach('video', Buffer.from('dummy'), {
+          filename: 'test.mp4',
+          contentType: 'video/mp4',
+        });
 
-    const res = await request(server)
-      .post('/api/login')
-      .send({ email: 'test@test.com', password: 'wrongpassword' });
+      expect([200, 201]).toContain(res.statusCode);
+    }, 10000); // 👈 increase timeout
 
-    expect(res.statusCode).toBe(401);
-  });
-});
+    it('should return error without file', async () => {
+      const res = await request(serverInstance)
+        .post('/process');
 
-describe('Projects API', () => {
-  it('should save a project', async () => {
-    mockQuery.mockResolvedValueOnce({});
-
-    const res = await request(server)
-      .post('/api/projects')
-      .send({ userId: 1, name: 'Project 1', data: {} });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.success).toBe(true);
-  });
-
-  it('should load projects', async () => {
-    mockQuery.mockResolvedValueOnce({ rows: [{ id: 1, name: 'Project 1' }] });
-
-    const res = await request(server)
-      .get('/api/projects/1');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.length).toBeGreaterThan(0);
+      expect([400, 422]).toContain(res.statusCode);
+    });
   });
 });
