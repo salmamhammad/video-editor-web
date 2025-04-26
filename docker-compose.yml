@@ -29,7 +29,7 @@ services:
     volumes:
       - shared_volume:/app/backend/uploads  # Same shared volume
     depends_on:
-      - backend
+      - backendweb
       - db 
     environment:
       - NODE_ENV=development  
