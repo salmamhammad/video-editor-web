@@ -95,9 +95,6 @@ pipeline {
         }
         failure {
             echo '❌ Some tests failed! Check logs above.'
-            echo 'The pipeline failed. Reviewing test logs:'
-            // Add steps here to gather logs or send a notification
-            archiveArtifacts allowEmptyArchive: true, artifacts: '**/jest-report*.xml'
         }
     }
 }
