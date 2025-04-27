@@ -78,11 +78,11 @@ pipeline {
        
 
     
-        // stage('🛑 Stop Services') {
-        //     steps {
-        //         sh  'docker-compose down'
-        //     }
-        // }
+        stage('🛑 Stop Services') {
+            steps {
+                sh  'docker-compose down'
+            }
+        }
     }
 
     post {

@@ -6,7 +6,10 @@ server.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
 afterAll((done) => {
-  server.close(done);
+  server.close(() => {
+    done();
+    process.exit(0); // << add this line
+  });
 });
 
 describe("Server basic routes", () => {
